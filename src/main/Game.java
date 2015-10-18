@@ -10,13 +10,15 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseWheelEvent;
+import java.awt.event.MouseWheelListener;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import javax.swing.JPanel;
 import gameState.*;
 
-public class Game extends JPanel implements Runnable, KeyListener, MouseListener{
+public class Game extends JPanel implements Runnable, KeyListener, MouseListener, MouseWheelListener{
 	//dimensions
 	public static final int WIDTH = 1024;
 	public static final int HEIGHT = 768;
@@ -129,6 +131,7 @@ public class Game extends JPanel implements Runnable, KeyListener, MouseListener
 			thread = new Thread(this);
 			addKeyListener(this);
 			addMouseListener(this);
+			addMouseWheelListener(this);
 			thread.start();
 		}
 	}
@@ -138,5 +141,11 @@ public class Game extends JPanel implements Runnable, KeyListener, MouseListener
 	public static void setGameState(GameState newCurrentState) {
 		currentState = newCurrentState;
 		currentState.init();
+	}
+
+	@Override
+	public void mouseWheelMoved(MouseWheelEvent e) {
+		currentState.mouseWheelMoved(e);
+		
 	}
 }

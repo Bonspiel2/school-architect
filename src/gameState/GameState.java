@@ -2,6 +2,7 @@ package gameState;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseWheelEvent;
 
 public interface GameState {
 	
@@ -21,6 +22,7 @@ public interface GameState {
 
 	void mouseEntered(MouseEvent e);
 	void mouseExited(MouseEvent e);
+	void mouseWheelMoved(MouseWheelEvent e);
 
 
 }
