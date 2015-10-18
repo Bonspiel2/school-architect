@@ -8,15 +8,19 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
 import javax.swing.JPanel;
+import gameState.*;
 
-public class Game extends JPanel implements Runnable, KeyListener{
+public class Game extends JPanel implements Runnable, KeyListener, MouseListener{
 	//dimensions
 	public static final int WIDTH = 1024;
 	public static final int HEIGHT = 768;
+	public static final int SCALE  = 2;
 
 	//game thread
 	private Thread thread;
@@ -28,6 +32,10 @@ public class Game extends JPanel implements Runnable, KeyListener{
 	private BufferedImage image;
 	private Graphics2D g;
 	
+	//game states
+	private static GameState currentState;
+	
+	
 	public Game(){	// Game constructor
 		super();
 		setPreferredSize(new Dimension(WIDTH, HEIGHT));
@@ -35,6 +43,7 @@ public class Game extends JPanel implements Runnable, KeyListener{
 		requestFocus();
 		FPS = 30;
 		targetTime = 1000/FPS;
+		currentState = new Menu();
 	}
 
 	private void init(){	// initalizes game states
@@ -66,15 +75,12 @@ public class Game extends JPanel implements Runnable, KeyListener{
 	}
 
 	private void update() {	// updates current game state
-
+		currentState.update();
 	}
 
 
 	private void draw() {	// draws current game state
-		g.setColor(Color.white);
-		g.fillRect(0,0,WIDTH, HEIGHT);
-		g.setColor(Color.red);
-		g.fillOval(100, 100, 40, 70);
+		currentState.draw(g);
 	}
 
 	private void drawToScreen() {	// scales and draws game with formating
@@ -83,14 +89,38 @@ public class Game extends JPanel implements Runnable, KeyListener{
 		g2.dispose();
 	}
 	public void keyTyped(KeyEvent e) {
+		currentState.keyTyped(e);
 	}
 
 	@Override
 	public void keyPressed(KeyEvent e) {
+		currentState.keyPressed(e);
 
 	}
 
 	public void keyReleased(KeyEvent e) {
+		currentState.keyReleased(e);
+	}
+	
+	public void mouseClicked(MouseEvent e){
+		
+		currentState.mouseClicked(e);
+	}
+	
+	public void mousePressed(MouseEvent e){
+		currentState.mousePressed(e);
+	}
+	
+	public void mouseReleased(MouseEvent e){
+		currentState.mouseReleased(e);
+	}
+
+	public void mouseEntered(MouseEvent e){
+		currentState.mouseEntered(e);
+	}
+	
+	public void mouseExited(MouseEvent e){
+		currentState.mouseExited(e);
 	}
 
 	public void addNotify(){	// declares parent status and adds listeners
@@ -98,7 +128,15 @@ public class Game extends JPanel implements Runnable, KeyListener{
 		if(thread == null){
 			thread = new Thread(this);
 			addKeyListener(this);
+			addMouseListener(this);
 			thread.start();
 		}
+	}
+	
+	
+
+	public static void setGameState(GameState newCurrentState) {
+		currentState = newCurrentState;
+		currentState.init();
 	}
 }

@@ -1,9 +1,24 @@
 package gameState;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 
+import main.Game;
+import objectMap.BlockMap;
+
 public class School implements GameState {
+	
+	BlockMap blockMap;
+	
+	public School(){
+		blockMap = new BlockMap();
+	}
+	
+	public void init(){
+		blockMap.loadMap();
+	}
 
 	@Override
 	public void update() {
@@ -13,19 +28,11 @@ public class School implements GameState {
 
 	@Override
 	public void draw(Graphics2D g) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void keyPressed(int k) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void keyReleased(int k) {
-		// TODO Auto-generated method stub
+		g.setColor(Color.WHITE);
+		g.fillRect(0, 0, Game.WIDTH, Game.HEIGHT);
+		
+		blockMap.draw(g);
+		
 
 	}
 
@@ -38,6 +45,7 @@ public class School implements GameState {
 	@Override
 	public void mousePressed(MouseEvent e) {
 		// TODO Auto-generated method stub
+		blockMap.place(e.getX(), e.getY(), 1);
 
 	}
 
@@ -57,6 +65,24 @@ public class School implements GameState {
 	public void mouseExited(MouseEvent e) {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

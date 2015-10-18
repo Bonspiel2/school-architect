@@ -1,17 +1,25 @@
 package gameState;
 
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics2D;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
+import main.Game;
 import utilities.Button;
 
 public class Menu implements GameState {
 	
-	private Button[] options;
+	private Button[] options = {new Button(334, 462, 100, 100, "Play")};
+	private final int PLAY_BUTTON = 0;
 	
 	public Menu(){
-		options = {new Button()
+		
+	}
+	
+	public void init(){
 		
 	}
 
@@ -23,31 +31,45 @@ public class Menu implements GameState {
 
 	@Override
 	public void draw(Graphics2D g) {
-		// TODO Auto-generated method stub
+		g.setColor(Color.WHITE);
+		g.fillRect(0,0,Game.WIDTH, Game.HEIGHT);
 		
-	}
-
-	@Override
-	public void keyPressed(int k) {
-		// TODO Auto-generated method stub
+		g.setColor(Color.BLACK);
+		g.setFont(new Font("Tahoma", Font.BOLD, 28));
+		g.drawString("School Architect", 256, 192);
 		
-	}
-
-	@Override
-	public void keyReleased(int k) {
-		// TODO Auto-generated method stub
+		g.setFont(new Font("Tahoma", Font.BOLD, 18));
+		for (Button b : options){
+			b.draw(g);
+		}
 		
 	}
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		// TODO Auto-generated method stub
+		int x = e.getX();
+		int y = e.getY();
+		
+		System.out.println(x + " " + y);
+		
+		for (int i = 0; i < options.length; i++){
+			if (options[i].containsPoint(x, y)){
+				select(i);
+				break;
+			}
+		}
+	}
+
+	private void select(int button) {
+		if (button == PLAY_BUTTON){
+			Game.setGameState(new School());
+		}
 		
 	}
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		// TODO Auto-generated method stub
+		
 		
 	}
 
@@ -65,6 +87,24 @@ public class Menu implements GameState {
 
 	@Override
 	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
 		// TODO Auto-generated method stub
 		
 	}
