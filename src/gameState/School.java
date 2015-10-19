@@ -129,9 +129,9 @@ public class School implements GameState {
 		int notches =  e.getWheelRotation();
 		
 		if (notches < 0){
-			blockMap.setSize((int) (blockMap.getSize() * 1.2));
+			blockMap.setSize((blockMap.getSize() * 1.1));
 		} else
-			blockMap.setSize((int) (blockMap.getSize() * 0.9));
+			blockMap.setSize((blockMap.getSize() * 0.9));
 		
 	}
 

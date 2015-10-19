@@ -7,7 +7,7 @@ import main.Game;
 public class BlockMap {
 	
 	private Block[][] map;
-	int size;
+	double size;
 	int sizeScale;
 	int xOffSet;
 	int yOffSet;
@@ -15,7 +15,7 @@ public class BlockMap {
 	public BlockMap(){
 		map = new Block[100][100];
 		size = Game.HEIGHT/100;
-		xOffSet = (Game.WIDTH - (size * 100))/2;
+		xOffSet = (int) ((Game.WIDTH - (size * 100))/2);
 		yOffSet = 0;
 	}
 	
@@ -31,7 +31,7 @@ public class BlockMap {
 	public void draw(Graphics2D g){
 		for (int x = 0; x < map.length; x++){
 			for (int y = 0; y < map[0].length; y++){
-				map[x][y].draw(g, (x * size) + xOffSet, (y * size) + yOffSet, size);
+				map[x][y].draw(g, (int) (x * size) + xOffSet, (int) (y * size) + yOffSet, (int) size);
 			}
 			
 		}
@@ -40,7 +40,7 @@ public class BlockMap {
 	///////GETTERS AND SETTERS////////
 	
 	public void place(int x, int y , int id){
-		map[(x - xOffSet)/size][(y - yOffSet)/size].setId(1);
+		map[(int) ((x - xOffSet)/size)][(int) ((y - yOffSet)/size)].setId(1);
 	}
 
 	public void setXOffSet(int xOffSet) {
@@ -59,11 +59,11 @@ public class BlockMap {
 		return yOffSet;
 	}
 
-	public int getSize() {
+	public double getSize() {
 		return size;
 	}
 
-	public void setSize(int size) {
+	public void setSize(double size, int x, int y) {
 		this.size = size;
 	}
 	
