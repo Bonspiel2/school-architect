@@ -130,8 +130,13 @@ public class School implements GameState {
 		
 		if (notches < 0){
 			blockMap.setSize((int) (blockMap.getSize() * 1.2));
-		} else
+			blockMap.setXOffSet(e.getX() + (Game.WIDTH/2));
+			blockMap.setYOffSet(e.getY() + (Game.HEIGHT/2));
+		} else {
 			blockMap.setSize((int) (blockMap.getSize() * 0.9));
+			blockMap.setXOffSet(e.getX() + (Game.WIDTH/2));
+			blockMap.setYOffSet(e.getY() + (Game.HEIGHT/2));
+		}
 		
 	}
 
