@@ -129,6 +129,7 @@ public class School implements GameState {
 		int notches =  e.getWheelRotation();
 		
 		if (notches < 0){
+<<<<<<< HEAD
 			blockMap.setSize((int) (blockMap.getSize() * 1.2));
 			blockMap.setXOffSet(e.getX() + (Game.WIDTH/2));
 			blockMap.setYOffSet(e.getY() + (Game.HEIGHT/2));
@@ -137,6 +138,11 @@ public class School implements GameState {
 			blockMap.setXOffSet(e.getX() + (Game.WIDTH/2));
 			blockMap.setYOffSet(e.getY() + (Game.HEIGHT/2));
 		}
+=======
+			blockMap.setSize((blockMap.getSize() * 1.1));
+		} else
+			blockMap.setSize((blockMap.getSize() * 0.9));
+>>>>>>> fe8b56727711c76e4213e8bb5268325839a5092a
 		
 	}
 
