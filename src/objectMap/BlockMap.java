@@ -63,7 +63,7 @@ public class BlockMap {
 		return size;
 	}
 
-	public void setSize(double size, int x, int y) {
+	public void setSize(double size) {
 		this.size = size;
 	}
 	
