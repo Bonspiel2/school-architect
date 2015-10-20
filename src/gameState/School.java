@@ -129,13 +129,20 @@ public class School implements GameState {
 		int notches =  e.getWheelRotation();
 		
 		if (notches < 0){
-			blockMap.setSize((blockMap.getSize() * 1.1));
+			int oldSideLength = blockMap.getSize() * 100;
+			blockMap.setSize((int)(blockMap.getSize() * 1.2));
+			int sideLength = blockMap.getSize() * 100;
+			blockMap.setXOffSet(blockMap.getxOffSet() - (sideLength - oldSideLength)/2 + ((Game.WIDTH/2) + e.getX()));
+			blockMap.setYOffSet(blockMap.getyOffSet() - (sideLength - oldSideLength)/2);
 		} else{
-			blockMap.setSize((blockMap.getSize() * 0.9));
+			int oldSideLength = blockMap.getSize() * 100;
+			blockMap.setSize((int)(blockMap.getSize() * 0.9));
+			int sideLength = blockMap.getSize() * 100;
+			blockMap.setXOffSet(blockMap.getxOffSet() + (oldSideLength - sideLength)/2);
+			blockMap.setYOffSet(blockMap.getyOffSet() + (oldSideLength - sideLength)/2);
 		}
 		
-		blockMap.setXOffSet(blockMap.getxOffSet() + ((Game.WIDTH/2) - e.getX()));
-		blockMap.setYOffSet(blockMap.getyOffSet() + ((Game.HEIGHT/2) - e.getY()));
+		
 		
 	}
 
