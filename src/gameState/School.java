@@ -132,14 +132,17 @@ public class School implements GameState {
 			int oldSideLength = blockMap.getSize() * 100;
 			blockMap.setSize(blockMap.getSize() + 1);
 			int sideLength = blockMap.getSize() * 100;
-			blockMap.setXOffSet(blockMap.getxOffSet() + ((sideLength - oldSideLength)/2 + (Game.WIDTH - e.getX())));
-			blockMap.setYOffSet(blockMap.getyOffSet() - (sideLength - oldSideLength)/2 - (e.getY() - (Game.HEIGHT/2) ));
+			
+			blockMap.setXOffSet(blockMap.getxOffSet() - blockMap.getBlockX(e.getX()));
+			blockMap.setYOffSet(blockMap.getyOffSet() - blockMap.getBlockY(e.getY()));
+			System.out.println(e.getX());
+			System.out.println(e.getY());
 		} else{
 			int oldSideLength = blockMap.getSize() * 100;
 			blockMap.setSize(blockMap.getSize() - 1);
 			int sideLength = blockMap.getSize() * 100;
-			blockMap.setXOffSet(blockMap.getxOffSet() + (oldSideLength - sideLength)/2);
-			blockMap.setYOffSet(blockMap.getyOffSet() + (oldSideLength - sideLength)/2);
+			blockMap.setXOffSet(blockMap.getxOffSet() - blockMap.getBlockX(e.getX()));
+			blockMap.setYOffSet(blockMap.getyOffSet() - blockMap.getBlockY(e.getY()) + 1);
 		}
 		
 		

@@ -67,5 +67,17 @@ public class BlockMap {
 		this.size = size;
 	}
 	
+	public int getBlockX(int x){
+		
+		return (int) ((x - xOffSet)/size);
+		
+	}
+	
+	public int getBlockY(int y){
+		
+		return (int) ((y - yOffSet)/size);
+		
+	}
+	
 
 }
