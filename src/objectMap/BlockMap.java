@@ -11,14 +11,16 @@ public class BlockMap {
 	int sizeScale;
 	int xOffSet;
 	int yOffSet;
+	double zoom;
 	
 	public BlockMap(){
 		map = new Block[100][100];
 		size = Game.HEIGHT/100;
 		xOffSet = (int) ((Game.WIDTH - (size * 100))/2);
 		yOffSet = 0;
+		zoom = 1;
 	}
-	
+
 	public void loadMap(){
 		for (int x = 0; x < map.length; x++){
 			for (int y = 0; y < map[0].length; y++){
@@ -31,7 +33,7 @@ public class BlockMap {
 	public void draw(Graphics2D g){
 		for (int x = 0; x < map.length; x++){
 			for (int y = 0; y < map[0].length; y++){
-				map[x][y].draw(g, (x * size) + xOffSet, (y * size) + yOffSet, size);
+				map[x][y].draw(g, (int)((x * size) * zoom) + xOffSet, (int)((y * size) * zoom) + yOffSet, (int) (size * zoom));
 			}
 			
 		}
@@ -66,18 +68,17 @@ public class BlockMap {
 	public void setSize(int size) {
 		this.size = size;
 	}
-	
-	public int getBlockX(int x){
-		
-		return (int) ((x - xOffSet)/size);
-		
+
+	public double getZoom() {
+		return zoom;
+	}
+
+	public void setZoom(double zoom) {
+		this.zoom = zoom;
 	}
 	
-	public int getBlockY(int y){
-		
-		return (int) ((y - yOffSet)/size);
-		
-	}
+	
+	
 	
 
 }
