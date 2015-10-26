@@ -2,6 +2,7 @@ package gameState;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Point;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
@@ -28,17 +29,26 @@ public class School implements GameState {
 
 	@Override
 	public void update() {
+		Point pos = blockMap.getViewPosition();
 		if (right){
-			blockMap.setXOffSet(blockMap.getxOffSet()-cameraSpeed);
+			blockMap.setViewPosition(new Point(pos.x+cameraSpeed, pos.y));
+			pos.x+=cameraSpeed;
+			blockMap.fixBounds();
 		}
 		if (left){
-			blockMap.setXOffSet(blockMap.getxOffSet()+cameraSpeed);
+			blockMap.setViewPosition(new Point(pos.x-cameraSpeed, pos.y));
+			pos.x-=cameraSpeed;
+			blockMap.fixBounds();
 		}
 		if (down){
-			blockMap.setYOffSet(blockMap.getyOffSet()-cameraSpeed);
+			blockMap.setViewPosition(new Point(pos.x, pos.y+cameraSpeed));
+			pos.y+=cameraSpeed;
+			blockMap.fixBounds();
 		}
 		if (up){
-			blockMap.setYOffSet(blockMap.getyOffSet()+cameraSpeed);
+			blockMap.setViewPosition(new Point(pos.x, pos.y-cameraSpeed));
+			pos.y-=cameraSpeed;
+			blockMap.fixBounds();
 		}
 
 	}
@@ -129,18 +139,29 @@ public class School implements GameState {
 		int notches =  e.getWheelRotation();
 		
 		if (notches < 0){
-			blockMap.setZoom(blockMap.getZoom() * 1.1f);
+			blockMap.setSize(blockMap.getSize() + 1);
 			
-			blockMap.setXOffSet((int) (e.getX() * (1.1f - 1f) + 1.1f * blockMap.getxOffSet()));
-			blockMap.setYOffSet((int) (e.getY() * (1.1f - 1f) + 1.1f * blockMap.getyOffSet()));
-			System.out.println(e.getX());
-			System.out.println(e.getY());
+			int newX = Math.round((e.getX() * 100 /Game.WIDTH));
+			int newY = Math.round((e.getY() * 100/Game.HEIGHT));
+			
+			Point oldPos = blockMap.getViewPosition();
+			
+			System.out.println(newX + " " + newY);
+			
+			blockMap.setViewPosition(new Point(oldPos.x + newX, oldPos.y + newY));
+			blockMap.fixBounds();
 		} else{
-			int oldSideLength = blockMap.getSize() * 100;
 			blockMap.setSize(blockMap.getSize() - 1);
-			int sideLength = blockMap.getSize() * 100;
-			//blockMap.setXOffSet(blockMap.getxOffSet() - blockMap.getBlockX(e.getX()));
-			//blockMap.setYOffSet(blockMap.getyOffSet() - blockMap.getBlockY(e.getY()) + 1);
+			
+			int newX = Math.round((e.getX() * 100 /Game.WIDTH));
+			int newY = Math.round((e.getY() * 100/Game.HEIGHT));
+			
+			Point oldPos = blockMap.getViewPosition();
+			
+			System.out.println(newX + " " + newY);
+			
+			blockMap.setViewPosition(new Point(oldPos.x - newX, oldPos.y - newY));
+			blockMap.fixBounds();
 		}
 		
 		

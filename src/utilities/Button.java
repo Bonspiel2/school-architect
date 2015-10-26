@@ -30,7 +30,11 @@ public class Button {
 	}
 
 	public void draw(Graphics2D g){
-		g.drawString(text, x, y + height);
+		int stringWidth = g.getFontMetrics().stringWidth(text);
+		int stringHeight = g.getFontMetrics().getHeight();
+		g.drawString(text, (width/2) - (stringWidth/2) + x , y + (height/2) + (stringHeight/2));
+		
+		g.drawRect(x, y, width, height);
 	}
 
 	public void setText(String text){

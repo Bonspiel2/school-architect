@@ -51,8 +51,6 @@ public class Menu implements GameState {
 		int x = e.getX();
 		int y = e.getY();
 		
-		System.out.println(x + " " + y);
-		
 		for (int i = 0; i < options.length; i++){
 			if (options[i].containsPoint(x, y)){
 				select(i);
