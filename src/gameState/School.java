@@ -31,23 +31,23 @@ public class School implements GameState {
 	public void update() {
 		Point pos = blockMap.getViewPosition();
 		if (right){
-			blockMap.setViewPosition(new Point(pos.x+cameraSpeed, pos.y));
-			pos.x+=cameraSpeed;
-			blockMap.fixBounds();
-		}
-		if (left){
 			blockMap.setViewPosition(new Point(pos.x-cameraSpeed, pos.y));
 			pos.x-=cameraSpeed;
 			blockMap.fixBounds();
 		}
+		if (left){
+			blockMap.setViewPosition(new Point(pos.x+cameraSpeed, pos.y));
+			pos.x+=cameraSpeed;
+			blockMap.fixBounds();
+		}
 		if (down){
-			blockMap.setViewPosition(new Point(pos.x, pos.y+cameraSpeed));
-			pos.y+=cameraSpeed;
+			blockMap.setViewPosition(new Point(pos.x, pos.y-cameraSpeed));
+			pos.y-=cameraSpeed;
 			blockMap.fixBounds();
 		}
 		if (up){
-			blockMap.setViewPosition(new Point(pos.x, pos.y-cameraSpeed));
-			pos.y-=cameraSpeed;
+			blockMap.setViewPosition(new Point(pos.x, pos.y+cameraSpeed));
+			pos.y+=cameraSpeed;
 			blockMap.fixBounds();
 		}
 
@@ -141,27 +141,32 @@ public class School implements GameState {
 		if (notches < 0){
 			blockMap.setSize(blockMap.getSize() + 1);
 			
-			int newX = Math.round((e.getX() * 100 /Game.WIDTH));
-			int newY = Math.round((e.getY() * 100/Game.HEIGHT));
+			if (!blockMap.fixBounds()){
+				
 			
-			Point oldPos = blockMap.getViewPosition();
-			
-			System.out.println(newX + " " + newY);
-			
-			blockMap.setViewPosition(new Point(oldPos.x + newX, oldPos.y + newY));
-			blockMap.fixBounds();
+				int newX = Math.round((e.getX() * 100/Game.WIDTH));
+				int newY = Math.round((e.getY() * 100/Game.HEIGHT));
+				
+				Point oldPos = blockMap.getViewPosition();
+				
+				System.out.println(newX + " " + newY);
+				
+				blockMap.setViewPosition(new Point(oldPos.x - newX, oldPos.y - newY));
+			}
 		} else{
 			blockMap.setSize(blockMap.getSize() - 1);
 			
-			int newX = Math.round((e.getX() * 100 /Game.WIDTH));
-			int newY = Math.round((e.getY() * 100/Game.HEIGHT));
+			if (!blockMap.fixBounds()){
 			
-			Point oldPos = blockMap.getViewPosition();
-			
-			System.out.println(newX + " " + newY);
-			
-			blockMap.setViewPosition(new Point(oldPos.x - newX, oldPos.y - newY));
-			blockMap.fixBounds();
+				int newX = Math.round((e.getX() * 100 /Game.WIDTH));
+				int newY = Math.round((e.getY() * 100/Game.HEIGHT));
+				
+				Point oldPos = blockMap.getViewPosition();
+				
+				System.out.println(newX + " " + newY);
+				
+				blockMap.setViewPosition(new Point(oldPos.x + newX, oldPos.y + newY));
+			}
 		}
 		
 		

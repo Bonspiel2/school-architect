@@ -46,7 +46,7 @@ public class BlockMap {
 		
 		for (int x = 0; x < map.length; x++){
 			for (int y = 0; y < map[0].length; y++){
-				map[x][y].draw(g, (x * blockSize) - viewPosition.x, (y * blockSize) - viewPosition.y, blockSize);
+				map[x][y].draw(g, (x * blockSize) + viewPosition.x, (y * blockSize) + viewPosition.y, blockSize);
 			}
 			
 		}
@@ -59,27 +59,39 @@ public class BlockMap {
 //		}
 	}
 	
-	public void fixBounds(){
+	public boolean fixBounds(){
+		System.out.println(viewPosition.x);
 		if (viewPosition.x > Game.WIDTH/2){
+			
 			viewPosition.x = Game.WIDTH/2;
+			return true;
 		}
 		if (viewPosition.x + (size * 100) < Game.WIDTH/2){
 			viewPosition.x = (Game.WIDTH/2) - (size * 100);
+			return true;
 		}
 		if (viewPosition.y > Game.HEIGHT/2){
 			viewPosition.y = Game.HEIGHT/2;
+			return true;
 		}
 		if (viewPosition.y + (size * 100) < Game.HEIGHT/2){
 			viewPosition.y = (Game.HEIGHT/2) - (size * 100);
+			return true;
 		}
-		if (size > 30){
-			size = 30;
+		if (size > 100){
+			size = 100;
+			return true;
 		}
+		if (size < 4){
+			size = 4;
+			return true;
+		}
+		return false;
 	}
 	
 	public void place(int x, int y , int id){
 		int blockSize = (int) (size * zoom);
-		map[(int) ((x + viewPosition.x)/blockSize)][(int) ((y + viewPosition.y)/blockSize)].setId(1);
+		map[(int) ((x - viewPosition.x)/blockSize)][(int) ((y - viewPosition.y)/blockSize)].setId(1);
 	}
 	
 	///////GETTERS AND SETTERS////////
