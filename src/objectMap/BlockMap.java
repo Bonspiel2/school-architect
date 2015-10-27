@@ -4,6 +4,9 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 
 import main.Game;
+import objectMap.blocks.Block;
+import objectMap.blocks.Brick;
+import objectMap.blocks.Grass;
 
 public class BlockMap {
 	
@@ -27,7 +30,7 @@ public class BlockMap {
 		
 		for (int x = 0; x < map.length; x++){
 			for (int y = 0; y < map[0].length; y++){
-				map[x][y] = new Block(0, true);
+				map[x][y] = new Grass();
 			}
 			
 		}
@@ -89,9 +92,9 @@ public class BlockMap {
 		return false;
 	}
 	
-	public void place(int x, int y , int id){
+	public void place(int x, int y){
 		int blockSize = (int) (size * zoom);
-		map[(int) ((x - viewPosition.x)/blockSize)][(int) ((y - viewPosition.y)/blockSize)].setId(1);
+		map[(int) ((x - viewPosition.x)/blockSize)][(int) ((y - viewPosition.y)/blockSize)] = new Brick();
 	}
 	
 	///////GETTERS AND SETTERS////////

@@ -72,7 +72,7 @@ public class School implements GameState {
 	@Override
 	public void mousePressed(MouseEvent e) {
 		// TODO Auto-generated method stub
-		blockMap.place(e.getX(), e.getY(), 1);
+		blockMap.place(e.getX(), e.getY());
 
 	}
 
