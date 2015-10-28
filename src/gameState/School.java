@@ -10,12 +10,15 @@ import java.awt.event.MouseWheelListener;
 
 import main.Game;
 import objectMap.BlockMap;
+import utilities.Button;
 
 public class School implements GameState {
 	
-	BlockMap blockMap;
-	boolean left, right, up, down;
-	int cameraSpeed;
+	private BlockMap blockMap;
+	private boolean left, right, up, down;
+	private int cameraSpeed;
+	
+	private BottomMenu bottomMenu = new BottomMenu();
 	
 	public School(){
 		blockMap = new BlockMap();
@@ -66,7 +69,16 @@ public class School implements GameState {
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		// TODO Auto-generated method stub
+		for (int i = 0; i < bottomMenu.length; i++){
+			if (bottomMenu[i].containsPoint(e.getX(), e.getY())){
+				select(i);
+			}
+		}
 
+	}
+	
+	private void select(int button){
+		
 	}
 
 	@Override
