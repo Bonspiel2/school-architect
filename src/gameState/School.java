@@ -53,6 +53,7 @@ public class School implements GameState {
 			pos.y+=cameraSpeed;
 			blockMap.fixBounds();
 		}
+		
 
 	}
 
@@ -62,18 +63,14 @@ public class School implements GameState {
 		g.fillRect(0, 0, Game.WIDTH, Game.HEIGHT);
 		
 		blockMap.draw(g);
+		bottomMenu.draw(g);
 		
 
 	}
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		// TODO Auto-generated method stub
-		for (int i = 0; i < bottomMenu.length; i++){
-			if (bottomMenu[i].containsPoint(e.getX(), e.getY())){
-				select(i);
-			}
-		}
+		bottomMenu = new BottomMenu(bottomMenu.mouseClicked(e));
 
 	}
 	
