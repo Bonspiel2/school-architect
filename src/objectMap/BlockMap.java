@@ -4,9 +4,7 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 
 import main.Game;
-import objectMap.blocks.Block;
-import objectMap.blocks.Brick;
-import objectMap.blocks.Grass;
+import objectMap.blocks.*;
 
 public class BlockMap {
 	

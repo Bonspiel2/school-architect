@@ -18,6 +18,8 @@ public class BottomMenu {
 	boolean clicked;
 	Point popUpMenuPosition;
 	BottomMenuOption option;
+	private final int popUpMenuWidth = 170;
+	private final int popUpMenuHeight = 50;
 
 	public BottomMenu(BottomMenuOption b){
 		option = b;
@@ -39,9 +41,11 @@ public class BottomMenu {
 	
 
 	public void draw(Graphics2D g) {
+		
+		g.setColor(new Color(0, 0, 0, 100));
+		g.fillRect(0, Game.HEIGHT - 50, Game.WIDTH, Game.HEIGHT);
+		
 		for (Button b : bottomMenuButtons){
-			g.setColor(new Color(0, 0, 0, 100));
-			g.fillRect(0, Game.HEIGHT - 50, Game.WIDTH, Game.HEIGHT);
 			
 			g.setColor(Color.BLUE);
 			g.setFont(new Font("Tahoma", Font.BOLD, 10));
@@ -50,7 +54,7 @@ public class BottomMenu {
 		}
 		if (clicked){
 			g.setColor(new Color(0, 0, 0, 100));
-			g.fillRect(popUpMenuPosition.x, popUpMenuPosition.y, 170, 50);
+			g.fillRect(popUpMenuPosition.x, popUpMenuPosition.y, popUpMenuWidth, popUpMenuHeight);
 			g.setColor(Color.ORANGE);
 			for (Button b : optionButtons){
 				b.draw(g);
@@ -108,6 +112,20 @@ public class BottomMenu {
 	public void mouseWheelMoved(MouseWheelEvent e) {
 		// TODO Auto-generated method stub
 
+	}
+
+	public boolean contains(int x, int y) {
+		
+		if(y > Game.HEIGHT - 50){
+			return true;
+		}
+		if (y > Game.HEIGHT - 50 && clicked){
+			if (x >= popUpMenuPosition.x && x <= popUpMenuPosition.x + popUpMenuWidth && y >= popUpMenuPosition.y && y <= popUpMenuPosition.y + popUpMenuHeight){
+				return true;
+			}
+		}
+		
+		return false;
 	}
 
 }

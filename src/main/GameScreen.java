@@ -12,7 +12,7 @@ public class GameScreen {
 		
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		window.setResizable(false);
-		window.pack();
+		window.pack(); 
 		window.setVisible(true);
 
 	}
