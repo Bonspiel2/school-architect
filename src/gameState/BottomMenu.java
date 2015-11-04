@@ -22,6 +22,10 @@ public class BottomMenu {
 	private final int popUpMenuHeight = 50;
 
 	public BottomMenu(BottomMenuOption b){
+		init(b);
+	}
+	
+	private void init(BottomMenuOption b){
 		option = b;
 		switch(b){
 		case BLOCK:
@@ -37,8 +41,6 @@ public class BottomMenu {
 			clicked = false;
 			break;
 		}
-		
-		
 	}
 	
 
@@ -82,15 +84,18 @@ public class BottomMenu {
 
 	public BottomMenuOption mouseClicked(MouseEvent e) {
 		// TODO Auto-generated method stub
+		boolean initialized = false;
 		for (Button b : bottomMenuButtons){
-			System.out.println("Clicked!");
 			if (b.containsPoint(e.getX(), e.getY())){
-				System.out.println("OOOOOO");
-				return BottomMenuOption.BLOCK;
-				
+				init(BottomMenuOption.BLOCK);
+				initialized = true;
+				break;
 			}
 		}
-		return BottomMenuOption.NOT_SELECTED;
+		
+		if (!initialized){
+			init(BottomMenuOption.NOT_SELECTED);
+		}
 
 	}
 

@@ -10,6 +10,7 @@ import java.awt.event.MouseWheelListener;
 
 import main.Game;
 import objectMap.BlockMap;
+import objectMap.blocks.BlockType;
 import utilities.Button;
 
 public class School implements GameState {
@@ -18,16 +19,21 @@ public class School implements GameState {
 	private boolean left, right, up, down;
 	private int cameraSpeed;
 	
+	private boolean placeable;
+	private BlockType blockToPlace;
+	
 	private BottomMenu bottomMenu = new BottomMenu(BottomMenuOption.NOT_SELECTED);
 	
 	public School(){
 		blockMap = new BlockMap();
+		blockMap.loadMap();
 		boolean left, right, up, down = false;
 		cameraSpeed = 5;
+		placeable = false;
+		blockToPlace = BlockType.NONE;
 	}
 	
 	public void init(){
-		blockMap.loadMap();
 	}
 
 	@Override
@@ -82,8 +88,11 @@ public class School implements GameState {
 	@Override
 	public void mousePressed(MouseEvent e) {
 		// TODO Auto-generated method stub
-		if (!bottomMenu.contains(e.getX(), e.getY()) && blockMap.contains(new Point(e.getX(), e.getY()))){
-			blockMap.place(e.getX(), e.getY());
+		//if (placeable){
+			if (!bottomMenu.contains(e.getX(), e.getY()) && blockMap.contains(new Point(e.getX(), e.getY()))){
+				blockMap.place(e.getX(), e.getY());
+				placeable = false;
+			//}
 		}
 
 	}
