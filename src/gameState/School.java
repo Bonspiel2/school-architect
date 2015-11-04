@@ -77,7 +77,7 @@ public class School implements GameState {
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		
-		bottomMenu = new BottomMenu(bottomMenu.mouseClicked(e));
+		bottomMenu.mouseClicked(e);
 
 	}
 	
@@ -88,11 +88,11 @@ public class School implements GameState {
 	@Override
 	public void mousePressed(MouseEvent e) {
 		// TODO Auto-generated method stub
-		//if (placeable){
+		if (placeable){
 			if (!bottomMenu.contains(e.getX(), e.getY()) && blockMap.contains(new Point(e.getX(), e.getY()))){
 				blockMap.place(e.getX(), e.getY());
 				placeable = false;
-			//}
+			}
 		}
 
 	}
