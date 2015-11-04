@@ -18,7 +18,7 @@ public class School implements GameState {
 	private boolean left, right, up, down;
 	private int cameraSpeed;
 	
-	private BottomMenu bottomMenu = new BottomMenu();
+	private BottomMenu bottomMenu = new BottomMenu(BottomMenuOption.NOT_SELECTED);
 	
 	public School(){
 		blockMap = new BlockMap();
@@ -82,7 +82,7 @@ public class School implements GameState {
 	@Override
 	public void mousePressed(MouseEvent e) {
 		// TODO Auto-generated method stub
-		if (!bottomMenu.contains(e.getX(), e.getY())){
+		if (!bottomMenu.contains(e.getX(), e.getY()) && blockMap.contains(new Point(e.getX(), e.getY()))){
 			blockMap.place(e.getX(), e.getY());
 		}
 
@@ -161,7 +161,6 @@ public class School implements GameState {
 				
 				Point oldPos = blockMap.getViewPosition();
 				
-				System.out.println(newX + " " + newY);
 				
 				blockMap.setViewPosition(new Point(oldPos.x - newX, oldPos.y - newY));
 			}
@@ -174,8 +173,6 @@ public class School implements GameState {
 				int newY = Math.round((e.getY() * 100/Game.HEIGHT));
 				
 				Point oldPos = blockMap.getViewPosition();
-				
-				System.out.println(newX + " " + newY);
 				
 				blockMap.setViewPosition(new Point(oldPos.x + newX, oldPos.y + newY));
 			}

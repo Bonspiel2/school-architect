@@ -61,7 +61,6 @@ public class BlockMap {
 	}
 	
 	public boolean fixBounds(){
-		System.out.println(viewPosition.x);
 		if (viewPosition.x > Game.WIDTH/2){
 			
 			viewPosition.x = Game.WIDTH/2;
@@ -121,6 +120,14 @@ public class BlockMap {
 
 	public void setViewPosition(Point viewPosition) {
 		this.viewPosition = viewPosition;
+	}
+	
+	public boolean contains(Point p){
+		if (p.x >= viewPosition.x && p.x <= viewPosition.x + (size * 100) && p.y >= viewPosition.y && p.y <= viewPosition.y + (size * 100) ){
+			return true;
+		} else{
+			return false;
+		}
 	}
 
 

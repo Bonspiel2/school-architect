@@ -15,9 +15,9 @@ public class BottomMenu {
 	
 	private Button[] bottomMenuButtons = {new Button(10, (Game.HEIGHT - 40), 30, 30, "Blocks")};
 	private Button[] optionButtons;
-	boolean clicked;
-	Point popUpMenuPosition;
-	BottomMenuOption option;
+	private boolean clicked;
+	private Point popUpMenuPosition;
+	private BottomMenuOption option;
 	private final int popUpMenuWidth = 170;
 	private final int popUpMenuHeight = 50;
 
@@ -29,14 +29,16 @@ public class BottomMenu {
 			optionButtons[0] = new Button(20, (Game.HEIGHT - 90), 30, 30, "Grass");
 			optionButtons[1] = new Button(60, (Game.HEIGHT - 90), 30, 30, "Brick");
 			popUpMenuPosition = new Point(10, (Game.HEIGHT - 100));
-			
+			clicked = true;
+			break;
+		case NOT_SELECTED:
+			optionButtons = new Button[0];
+			popUpMenuPosition = new Point(10, (Game.HEIGHT - 100));
+			clicked = false;
+			break;
 		}
 		
-		clicked = true;
-	}
-	
-	public BottomMenu(){
-		optionButtons = new Button[0];
+		
 	}
 	
 
@@ -81,11 +83,14 @@ public class BottomMenu {
 	public BottomMenuOption mouseClicked(MouseEvent e) {
 		// TODO Auto-generated method stub
 		for (Button b : bottomMenuButtons){
+			System.out.println("Clicked!");
 			if (b.containsPoint(e.getX(), e.getY())){
+				System.out.println("OOOOOO");
 				return BottomMenuOption.BLOCK;
+				
 			}
 		}
-		return option;
+		return BottomMenuOption.NOT_SELECTED;
 
 	}
 
@@ -116,10 +121,13 @@ public class BottomMenu {
 
 	public boolean contains(int x, int y) {
 		
+		System.out.println(clicked);
+		
 		if(y > Game.HEIGHT - 50){
 			return true;
 		}
-		if (y > Game.HEIGHT - 50 && clicked){
+		
+		if (clicked){
 			if (x >= popUpMenuPosition.x && x <= popUpMenuPosition.x + popUpMenuWidth && y >= popUpMenuPosition.y && y <= popUpMenuPosition.y + popUpMenuHeight){
 				return true;
 			}
