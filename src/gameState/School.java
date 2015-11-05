@@ -3,6 +3,7 @@ package gameState;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
+import java.awt.MouseInfo;
 import java.awt.Point;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
@@ -23,6 +24,8 @@ public class School implements GameState {
 	private int cameraSpeed;
 
 	private boolean placeable;
+	private boolean currentlyPlacing;
+	private Point originPlacingPoint;
 	private Block blockToPlace;
 
 	/////Bottom Menu/////
@@ -33,6 +36,8 @@ public class School implements GameState {
 	private BottomMenuOption option;
 	private final int popUpMenuWidth = 170;
 	private final int popUpMenuHeight = 50;
+	
+	private Point mousePosition;
 
 	public School(){
 		blockMap = new BlockMap();
@@ -40,6 +45,8 @@ public class School implements GameState {
 		boolean left, right, up, down = false;
 		cameraSpeed = 5;
 		placeable = false;
+		currentlyPlacing = false;
+		originPlacingPoint = new Point(0,0);
 		blockToPlace = new Block();
 
 		/////Bottom Menu/////
@@ -47,6 +54,8 @@ public class School implements GameState {
 		optionButtons = new Button[0];
 		popUpMenuPosition = new Point(10, (Game.HEIGHT - 100));
 		clicked = false;
+		
+		mousePosition = new Point(0, 0); 
 
 	}
 
@@ -85,7 +94,11 @@ public class School implements GameState {
 		g.setColor(Color.WHITE);
 		g.fillRect(0, 0, Game.WIDTH, Game.HEIGHT);
 
-		blockMap.draw(g);
+		if (placeable){
+			blockMap.draw(g, true);
+		} else{
+			blockMap.draw(g, false);
+		}
 
 		/////Bottom Menu//////
 		g.setColor(new Color(0, 0, 0, 100));
@@ -106,6 +119,14 @@ public class School implements GameState {
 				b.draw(g);
 			}
 		}
+		
+		if (placeable){
+			
+			int size = blockMap.getSize();
+			
+			blockToPlace.draw(g, mousePosition.x - (size/2), mousePosition.y - (size/2), size);
+		}
+		
 
 
 	}
@@ -186,7 +207,17 @@ public class School implements GameState {
 	@Override
 	public void mousePressed(MouseEvent e) {
 		// TODO Auto-generated method stub
-		System.out.println(placeable);
+		
+		currentlyPlacing = true;
+		originPlacingPoint = e.getPoint();
+		
+
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
 		if (placeable){
 			if (!bottomMenuContains(e.getX(), e.getY()) && blockMap.contains(new Point(e.getX(), e.getY()))){
 				blockMap.place(e.getX(), e.getY(), blockToPlace);
@@ -194,12 +225,6 @@ public class School implements GameState {
 				blockToPlace = new Block();
 			}
 		}
-
-	}
-
-	@Override
-	public void mouseReleased(MouseEvent e) {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -304,6 +329,18 @@ public class School implements GameState {
 		}
 
 		return false;
+	}
+
+	@Override
+	public void mouseMoved(MouseEvent e) {
+		mousePosition = e.getPoint();
+		
+	}
+
+	@Override
+	public void mouseDragged(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

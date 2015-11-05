@@ -23,6 +23,9 @@ public interface GameState {
 	void mouseEntered(MouseEvent e);
 	void mouseExited(MouseEvent e);
 	void mouseWheelMoved(MouseWheelEvent e);
+	
+	void mouseMoved(MouseEvent e);
+	void mouseDragged(MouseEvent e);
 
 
 }
