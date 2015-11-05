@@ -89,9 +89,9 @@ public class BlockMap {
 		return false;
 	}
 	
-	public void place(int x, int y){
+	public void place(int x, int y, Block blockToPlace){
 		int blockSize = (int) (size * zoom);
-		map[(int) ((x - viewPosition.x)/blockSize)][(int) ((y - viewPosition.y)/blockSize)] = new Brick();
+		map[(int) ((x - viewPosition.x)/blockSize)][(int) ((y - viewPosition.y)/blockSize)] = blockToPlace;
 	}
 	
 	///////GETTERS AND SETTERS////////

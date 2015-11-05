@@ -1,6 +1,7 @@
 package gameState;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.event.KeyEvent;
@@ -10,29 +11,45 @@ import java.awt.event.MouseWheelListener;
 
 import main.Game;
 import objectMap.BlockMap;
-import objectMap.blocks.BlockType;
+import objectMap.blocks.*;
 import utilities.Button;
 
 public class School implements GameState {
-	
+
+	private static final int GRASS_ID = 0;
+	private static final int BRICK_ID = 1;
 	private BlockMap blockMap;
 	private boolean left, right, up, down;
 	private int cameraSpeed;
-	
+
 	private boolean placeable;
-	private BlockType blockToPlace;
-	
-	private BottomMenu bottomMenu = new BottomMenu(BottomMenuOption.NOT_SELECTED);
-	
+	private Block blockToPlace;
+
+	/////Bottom Menu/////
+	private Button[] bottomMenuButtons = {new Button(10, (Game.HEIGHT - 40), 30, 30, "Blocks")};
+	private Button[] optionButtons;
+	private boolean clicked;
+	private Point popUpMenuPosition;
+	private BottomMenuOption option;
+	private final int popUpMenuWidth = 170;
+	private final int popUpMenuHeight = 50;
+
 	public School(){
 		blockMap = new BlockMap();
 		blockMap.loadMap();
 		boolean left, right, up, down = false;
 		cameraSpeed = 5;
 		placeable = false;
-		blockToPlace = BlockType.NONE;
+		blockToPlace = new Block();
+
+		/////Bottom Menu/////
+		option = BottomMenuOption.NOT_SELECTED;
+		optionButtons = new Button[0];
+		popUpMenuPosition = new Point(10, (Game.HEIGHT - 100));
+		clicked = false;
+
 	}
-	
+
 	public void init(){
 	}
 
@@ -59,7 +76,7 @@ public class School implements GameState {
 			pos.y+=cameraSpeed;
 			blockMap.fixBounds();
 		}
-		
+
 
 	}
 
@@ -67,31 +84,114 @@ public class School implements GameState {
 	public void draw(Graphics2D g) {
 		g.setColor(Color.WHITE);
 		g.fillRect(0, 0, Game.WIDTH, Game.HEIGHT);
-		
+
 		blockMap.draw(g);
-		bottomMenu.draw(g);
-		
+
+		/////Bottom Menu//////
+		g.setColor(new Color(0, 0, 0, 100));
+		g.fillRect(0, Game.HEIGHT - 50, Game.WIDTH, Game.HEIGHT);
+
+		for (Button b : bottomMenuButtons){
+
+			g.setColor(Color.BLUE);
+			g.setFont(new Font("Tahoma", Font.BOLD, 10));
+
+			b.draw(g);
+		}
+		if (clicked){
+			g.setColor(new Color(0, 0, 0, 100));
+			g.fillRect(popUpMenuPosition.x, popUpMenuPosition.y, popUpMenuWidth, popUpMenuHeight);
+			g.setColor(Color.ORANGE);
+			for (Button b : optionButtons){
+				b.draw(g);
+			}
+		}
+
 
 	}
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		
-		bottomMenu.mouseClicked(e);
+		
+		for (int i = 0; i < optionButtons.length; i++){
+			if (optionButtons[i].containsPoint(e.getX(), e.getY())){
+				selectOption(i);
+			}
+		}
+
+		boolean switched = false;
+		for (Button b : bottomMenuButtons){
+			if (b.containsPoint(e.getX(), e.getY())){
+				switchMenu(BottomMenuOption.BLOCK);
+				switched = true;
+				break;
+			}
+		}
+
+		switch (option){
+
+		case NOT_SELECTED:
+			break;
+
+		default:
+			if (!switched){
+				switchMenu(BottomMenuOption.NOT_SELECTED);
+			}
+			break;
+		}
 
 	}
-	
-	private void select(int button){
+
+	private void selectOption(int buttonNumber) {
 		
+		switch(option) {
+			case BLOCK:
+				if (buttonNumber == GRASS_ID){
+					placeable = true;
+					blockToPlace = new Grass();
+				} else if (buttonNumber == BRICK_ID){
+					placeable = true;
+					blockToPlace = new Brick();
+				} else {
+					placeable = false;
+					blockToPlace = new Block();
+				}
+					
+		}
+		
+	}
+
+	private void switchMenu(BottomMenuOption b){
+		option = b;
+
+		switch(option){
+
+		case BLOCK:
+			optionButtons = new Button[2];
+			optionButtons[0] = new Button(20, (Game.HEIGHT - 90), 30, 30, "Grass");
+			optionButtons[1] = new Button(60, (Game.HEIGHT - 90), 30, 30, "Brick");
+			popUpMenuPosition = new Point(10, (Game.HEIGHT - 100));
+			clicked = true;
+			break;
+		case NOT_SELECTED:
+			optionButtons = new Button[0];
+			popUpMenuPosition = new Point(10, (Game.HEIGHT - 100));
+			clicked = false;
+			break;
+		}
+
 	}
 
 	@Override
 	public void mousePressed(MouseEvent e) {
 		// TODO Auto-generated method stub
+		System.out.println(placeable);
 		if (placeable){
-			if (!bottomMenu.contains(e.getX(), e.getY()) && blockMap.contains(new Point(e.getX(), e.getY()))){
-				blockMap.place(e.getX(), e.getY());
+			if (!bottomMenuContains(e.getX(), e.getY()) && blockMap.contains(new Point(e.getX(), e.getY()))){
+				blockMap.place(e.getX(), e.getY(), blockToPlace);
 				placeable = false;
+				blockToPlace = new Block();
 			}
 		}
 
@@ -117,9 +217,9 @@ public class School implements GameState {
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		
+
 		int button = e.getKeyCode();
-		
+
 		if (button == KeyEvent.VK_A){
 			left = true;
 		} else if (button == KeyEvent.VK_D){
@@ -129,20 +229,20 @@ public class School implements GameState {
 		} else if (button == KeyEvent.VK_S){
 			down = true;
 		}
-		
+
 	}
 
 	@Override
 	public void keyTyped(KeyEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-		
+
 		int button = e.getKeyCode();
-		
+
 		if (button == KeyEvent.VK_A){
 			left = false;
 		} else if (button == KeyEvent.VK_D){
@@ -152,43 +252,58 @@ public class School implements GameState {
 		} else if (button == KeyEvent.VK_S){
 			down = false;
 		}
-		
+
 	}
 
 	@Override
 	public void mouseWheelMoved(MouseWheelEvent e) {
 		int notches =  e.getWheelRotation();
-		
+
 		if (notches < 0){
 			blockMap.setSize(blockMap.getSize() + 1);
-			
+
 			if (!blockMap.fixBounds()){
-				
-			
+
+
 				int newX = Math.round((e.getX() * 100/Game.WIDTH));
 				int newY = Math.round((e.getY() * 100/Game.HEIGHT));
-				
+
 				Point oldPos = blockMap.getViewPosition();
-				
-				
+
+
 				blockMap.setViewPosition(new Point(oldPos.x - newX, oldPos.y - newY));
 			}
 		} else{
 			blockMap.setSize(blockMap.getSize() - 1);
-			
+
 			if (!blockMap.fixBounds()){
-			
+
 				int newX = Math.round((e.getX() * 100 /Game.WIDTH));
 				int newY = Math.round((e.getY() * 100/Game.HEIGHT));
-				
+
 				Point oldPos = blockMap.getViewPosition();
-				
+
 				blockMap.setViewPosition(new Point(oldPos.x + newX, oldPos.y + newY));
 			}
 		}
-		
-		
-		
+
+
+
+	}
+
+	private boolean bottomMenuContains(int x, int y) {
+
+		if(y > Game.HEIGHT - 50){
+			return true;
+		}
+
+		if (clicked){
+			if (x >= popUpMenuPosition.x && x <= popUpMenuPosition.x + popUpMenuWidth && y >= popUpMenuPosition.y && y <= popUpMenuPosition.y + popUpMenuHeight){
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 }
