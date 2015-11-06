@@ -93,8 +93,10 @@ public class School implements GameState {
 	public void draw(Graphics2D g) {
 		g.setColor(Color.WHITE);
 		g.fillRect(0, 0, Game.WIDTH, Game.HEIGHT);
-
-		if (placeable){
+		
+		if (currentlyPlacing){
+			blockMap.draw(g, true, mousePosition, originPlacingPoint, blockToPlace);
+		}else if (placeable){
 			blockMap.draw(g, true);
 		} else{
 			blockMap.draw(g, false);
@@ -208,8 +210,11 @@ public class School implements GameState {
 	public void mousePressed(MouseEvent e) {
 		// TODO Auto-generated method stub
 		
-		currentlyPlacing = true;
-		originPlacingPoint = e.getPoint();
+		System.out.println(placeable);
+		if (placeable){
+			currentlyPlacing = true;
+			originPlacingPoint = e.getPoint();
+		}
 		
 
 	}
@@ -221,6 +226,7 @@ public class School implements GameState {
 		if (placeable){
 			if (!bottomMenuContains(e.getX(), e.getY()) && blockMap.contains(new Point(e.getX(), e.getY()))){
 				blockMap.place(e.getX(), e.getY(), blockToPlace);
+				currentlyPlacing = false;
 				placeable = false;
 				blockToPlace = new Block();
 			}
@@ -339,7 +345,7 @@ public class School implements GameState {
 
 	@Override
 	public void mouseDragged(MouseEvent e) {
-		// TODO Auto-generated method stub
+		mousePosition = e.getPoint();
 		
 	}
 
