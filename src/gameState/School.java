@@ -27,6 +27,7 @@ public class School implements GameState {
 	private boolean currentlyPlacing;
 	private Point originPlacingPoint;
 	private Block blockToPlace;
+	private boolean shiftHeld;
 
 	/////Bottom Menu/////
 	private Button[] bottomMenuButtons = {new Button(10, (Game.HEIGHT - 40), 30, 30, "Blocks")};
@@ -54,6 +55,7 @@ public class School implements GameState {
 		optionButtons = new Button[0];
 		popUpMenuPosition = new Point(10, (Game.HEIGHT - 100));
 		clicked = false;
+		shiftHeld = false;
 		
 		mousePosition = new Point(600, 500); 
 
@@ -125,7 +127,6 @@ public class School implements GameState {
 		if (placeable){
 			
 			int size = blockMap.getSize();
-			System.out.println("yolo");
 			
 			blockToPlace.draw(g, mousePosition.x - (size/2), mousePosition.y - (size/2), size);
 		}
@@ -226,10 +227,43 @@ public class School implements GameState {
 		
 		if (placeable){
 			if (!bottomMenuContains(e.getX(), e.getY()) && blockMap.contains(new Point(e.getX(), e.getY()))){
-				blockMap.place(e.getX(), e.getY(), blockToPlace);
+				int size = blockMap.getSize();
+				if (Math.abs(mousePosition.x - originPlacingPoint.x) >= Math.abs(mousePosition.y - originPlacingPoint.y)){
+					int mouseX = e.getX();
+					int originX = originPlacingPoint.x;
+					
+		
+					if (mousePosition.x < originPlacingPoint.x){
+						int temp = mouseX;
+						mouseX = originX;
+						originX = temp;
+						mouseX+=size/2;
+						
+					}
+					for (int x = originX; x < mouseX; x+=size){
+						blockMap.place(x, originPlacingPoint.y, blockToPlace);
+					}
+					
+				} else {
+					int mouseY = e.getY();
+					int originY = originPlacingPoint.y;
+		
+					if (mousePosition.y < originPlacingPoint.y){
+						int temp = mouseY;
+						mouseY = originY;
+						originY = temp;
+						mouseY+=size/2;
+						
+					}
+					for (int y = originY; y < mouseY; y+=size){
+						blockMap.place(originPlacingPoint.x, y, blockToPlace);
+					}
+				}
 				currentlyPlacing = false;
-				placeable = false;
-				blockToPlace = new Block();
+				if (!shiftHeld){
+					placeable = false;
+					blockToPlace = new Block();
+				}
 			}
 		}
 
@@ -260,6 +294,8 @@ public class School implements GameState {
 			up = true;
 		} else if (button == KeyEvent.VK_S){
 			down = true;
+		} else if (button == KeyEvent.VK_SHIFT){
+			shiftHeld = true;
 		}
 
 	}
@@ -283,6 +319,8 @@ public class School implements GameState {
 			up = false;
 		} else if (button == KeyEvent.VK_S){
 			down = false;
+		} else if (button == KeyEvent.VK_SHIFT){
+			shiftHeld = false;
 		}
 
 	}
