@@ -83,11 +83,11 @@ public class BlockMap {
 		}
 		
 		if (Math.abs(mousePosition.x - originPosition.x) >= Math.abs(mousePosition.y - originPosition.y)){
-			mousePosition.x = (int) ((mousePosition.x - viewPosition.x)/blockSize);
-			mousePosition.y = (int) ((mousePosition.y - viewPosition.y)/blockSize);
+			int mouseX = (int) ((mousePosition.x - viewPosition.x)/blockSize);
+			int mouseY = (int) ((mousePosition.y - viewPosition.y)/blockSize);
 			int y = (int) ((originPosition.y - viewPosition.y)/blockSize);
-			for (int x = (int) ((originPosition.x - viewPosition.x)/blockSize); x < mousePosition.x; x++){
-				blockToPlace.draw(g, (((int)(x / size)) * size) + viewPosition.x, (((int)(y / size)) * size) + viewPosition.y, size);
+			for (int x = (int) ((originPosition.x - viewPosition.x)/blockSize); x < mouseX; x++){
+				blockToPlace.draw(g, (x * size) + viewPosition.x, (y * size) + viewPosition.y, size);
 			}
 			
 		}

@@ -55,7 +55,7 @@ public class School implements GameState {
 		popUpMenuPosition = new Point(10, (Game.HEIGHT - 100));
 		clicked = false;
 		
-		mousePosition = new Point(0, 0); 
+		mousePosition = new Point(600, 500); 
 
 	}
 
@@ -125,6 +125,7 @@ public class School implements GameState {
 		if (placeable){
 			
 			int size = blockMap.getSize();
+			System.out.println("yolo");
 			
 			blockToPlace.draw(g, mousePosition.x - (size/2), mousePosition.y - (size/2), size);
 		}
