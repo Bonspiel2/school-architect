@@ -82,10 +82,42 @@ public class BlockMap {
 
 		}
 		
-		if (Math.abs(mousePosition.x - originPosition.x) >= Math.abs(mousePosition.y - originPosition.y)){
+		if (blockToPlace.getPlacingType() == Block.LINE){
+			if (Math.abs(mousePosition.x - originPosition.x) >= Math.abs(mousePosition.y - originPosition.y)){
+				int mouseX = (int) ((mousePosition.x - viewPosition.x)/blockSize);
+				int originX = (int) ((originPosition.x - viewPosition.x)/blockSize);
+				int y = (int) ((originPosition.y - viewPosition.y)/blockSize);
+				if (mousePosition.x < originPosition.x){
+					int temp = mouseX;
+					mouseX = originX;
+					originX = temp;
+					mouseX++;
+					
+				}
+				for (int x = originX; x < mouseX; x++){
+					blockToPlace.draw(g, (x * size) + viewPosition.x, (y * size) + viewPosition.y, size);
+				}
+				
+			} else {
+				int mouseY = (int) ((mousePosition.y - viewPosition.y)/blockSize);
+				int originY = (int) ((originPosition.y - viewPosition.y)/blockSize);
+				int x = (int) ((originPosition.x - viewPosition.x)/blockSize);
+				if (mousePosition.y < originPosition.y){
+					int temp = mouseY;
+					mouseY = originY;
+					originY = temp;
+					mouseY++;
+				}
+				for (int y = originY; y < mouseY; y++){
+					blockToPlace.draw(g, (x * size) + viewPosition.x, (y * size) + viewPosition.y, size);
+				}
+			}
+		} else if(blockToPlace.getPlacingType() == Block.SQUARE){
 			int mouseX = (int) ((mousePosition.x - viewPosition.x)/blockSize);
 			int originX = (int) ((originPosition.x - viewPosition.x)/blockSize);
-			int y = (int) ((originPosition.y - viewPosition.y)/blockSize);
+			int mouseY = (int) ((mousePosition.y - viewPosition.y)/blockSize);
+			int originY = (int) ((originPosition.y - viewPosition.y)/blockSize);
+			
 			if (mousePosition.x < originPosition.x){
 				int temp = mouseX;
 				mouseX = originX;
@@ -93,23 +125,20 @@ public class BlockMap {
 				mouseX++;
 				
 			}
-			for (int x = originX; x < mouseX; x++){
-				blockToPlace.draw(g, (x * size) + viewPosition.x, (y * size) + viewPosition.y, size);
-			}
 			
-		} else {
-			int mouseY = (int) ((mousePosition.y - viewPosition.y)/blockSize);
-			int originY = (int) ((originPosition.y - viewPosition.y)/blockSize);
-			int x = (int) ((originPosition.x - viewPosition.x)/blockSize);
 			if (mousePosition.y < originPosition.y){
 				int temp = mouseY;
 				mouseY = originY;
 				originY = temp;
 				mouseY++;
 			}
-			for (int y = originY; y < mouseY; y++){
-				blockToPlace.draw(g, (x * size) + viewPosition.x, (y * size) + viewPosition.y, size);
+			
+			for (int x = originX; x < mouseX; x++){
+				for (int y = originY; y < mouseY; y++){
+					blockToPlace.draw(g, (x * size) + viewPosition.x, (y * size) + viewPosition.y, size);
+				}
 			}
+			
 		}
 			
 

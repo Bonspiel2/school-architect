@@ -17,8 +17,9 @@ import utilities.Button;
 
 public class School implements GameState {
 
-	private static final int GRASS_ID = 0;
-	private static final int BRICK_ID = 1;
+	private final int GRASS_ID = 0;
+	private final int BRICK_ID = 1;
+	private final int TILE_ID = 2;
 	private BlockMap blockMap;
 	private boolean left, right, up, down;
 	private int cameraSpeed;
@@ -30,7 +31,8 @@ public class School implements GameState {
 	private boolean shiftHeld;
 
 	/////Bottom Menu/////
-	private Button[] bottomMenuButtons = {new Button(10, (Game.HEIGHT - 40), 30, 30, "Blocks")};
+	private Button[] bottomMenuButtons = {	new Button(10, (Game.HEIGHT - 40), 50, 30, "Building"),
+											new Button(70, (Game.HEIGHT - 40), 50, 30, "Blocks")};
 	private Button[] optionButtons;
 	private boolean clicked;
 	private Point popUpMenuPosition;
@@ -48,7 +50,6 @@ public class School implements GameState {
 		placeable = false;
 		currentlyPlacing = false;
 		originPlacingPoint = new Point(0,0);
-		blockToPlace = new Block();
 
 		/////Bottom Menu/////
 		option = BottomMenuOption.NOT_SELECTED;
@@ -178,9 +179,11 @@ public class School implements GameState {
 				} else if (buttonNumber == BRICK_ID){
 					placeable = true;
 					blockToPlace = new Brick();
+				} else if (buttonNumber == TILE_ID){
+					placeable = true;
+					blockToPlace = new Tile();
 				} else {
 					placeable = false;
-					blockToPlace = new Block();
 				}
 					
 		}
@@ -193,11 +196,16 @@ public class School implements GameState {
 		switch(option){
 
 		case BLOCK:
-			optionButtons = new Button[2];
+			optionButtons = new Button[3];
 			optionButtons[0] = new Button(20, (Game.HEIGHT - 90), 30, 30, "Grass");
 			optionButtons[1] = new Button(60, (Game.HEIGHT - 90), 30, 30, "Brick");
+			optionButtons[2] = new Button(100, (Game.HEIGHT - 90), 30, 30, "Tile");
 			popUpMenuPosition = new Point(10, (Game.HEIGHT - 100));
 			clicked = true;
+			break;
+		case BUILDING:
+			placeable = true;
+			blockToPlace = new Brick();
 			break;
 		case NOT_SELECTED:
 			optionButtons = new Button[0];
@@ -262,7 +270,6 @@ public class School implements GameState {
 				currentlyPlacing = false;
 				if (!shiftHeld){
 					placeable = false;
-					blockToPlace = new Block();
 				}
 			}
 		}
