@@ -58,6 +58,7 @@ public class Game extends JPanel implements Runnable, KeyListener, MouseListener
 		init();
 
 		long start, elapsed, wait;	//Vars to keep track of game's run times
+		
 		while(running){
 			start = System.nanoTime();
 
@@ -76,37 +77,40 @@ public class Game extends JPanel implements Runnable, KeyListener, MouseListener
 			}
 		}
 	}
-
-	private void update() {	// updates current game state
-		currentState.update();
-	}
-
-
-	private void draw() {	// draws current game state
-		currentState.draw(g);
-	}
-
-	private void drawToScreen() {	// scales and draws game with formating
+	
+	private void drawToScreen(){	// scales and draws game with formating
 		Graphics g2 = getGraphics();
 		g2.drawImage(image, 0, 0, WIDTH ,  HEIGHT , null);
 		g2.dispose();
 	}
-	public void keyTyped(KeyEvent e) {
+	
+	public static void setGameState(GameState newCurrentState){
+		currentState = newCurrentState;
+		currentState.init();
+	}
+
+	private void update(){	// updates current game state
+		currentState.update();
+	}
+
+
+	private void draw(){	// draws current game state
+		currentState.draw(g);
+	}
+	
+	public void keyTyped(KeyEvent e){
 		currentState.keyTyped(e);
 	}
 
-	@Override
-	public void keyPressed(KeyEvent e) {
+	public void keyPressed(KeyEvent e){
 		currentState.keyPressed(e);
-
 	}
 
-	public void keyReleased(KeyEvent e) {
+	public void keyReleased(KeyEvent e){
 		currentState.keyReleased(e);
 	}
 	
 	public void mouseClicked(MouseEvent e){
-		
 		currentState.mouseClicked(e);
 	}
 	
@@ -125,6 +129,18 @@ public class Game extends JPanel implements Runnable, KeyListener, MouseListener
 	public void mouseExited(MouseEvent e){
 		currentState.mouseExited(e);
 	}
+	
+	public void mouseMoved(MouseEvent e){
+		currentState.mouseMoved(e);
+	}
+	
+	public void mouseDragged(MouseEvent e){
+		currentState.mouseDragged(e);
+	}
+	
+	public void mouseWheelMoved(MouseWheelEvent e){
+		currentState.mouseWheelMoved(e);
+	}
 
 	public void addNotify(){	// declares parent status and adds listeners
 		super.addNotify();
@@ -136,30 +152,5 @@ public class Game extends JPanel implements Runnable, KeyListener, MouseListener
 			addMouseMotionListener(this);
 			thread.start();
 		}
-	}
-	
-	
-
-	public static void setGameState(GameState newCurrentState) {
-		currentState = newCurrentState;
-		currentState.init();
-	}
-
-	@Override
-	public void mouseWheelMoved(MouseWheelEvent e) {
-		currentState.mouseWheelMoved(e);
-		
-	}
-
-	@Override
-	public void mouseDragged(MouseEvent e) {
-		currentState.mouseDragged(e);
-		
-	}
-
-	@Override
-	public void mouseMoved(MouseEvent e) {
-		currentState.mouseMoved(e);
-		
 	}
 }

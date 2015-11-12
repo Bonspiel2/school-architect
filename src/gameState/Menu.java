@@ -16,18 +16,13 @@ public class Menu implements GameState {
 	private Button[] options = {new Button(334, 462, 100, 100, "Play")};
 	private final int PLAY_BUTTON = 0;
 	
-	public Menu(){
-		
+	public Menu() {
 	}
 	
-	public void init(){
-		
+	public void init() {
 	}
-
-	@Override
+	
 	public void update() {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
@@ -43,10 +38,23 @@ public class Menu implements GameState {
 		for (Button b : options){
 			b.draw(g);
 		}
-		
+	}
+	
+	private void select(int button) {
+		if (button == PLAY_BUTTON){
+			Game.setGameState(new School());
+		}
+	}
+	
+	public void keyPressed(KeyEvent e) {
 	}
 
-	@Override
+	public void keyTyped(KeyEvent e) {
+	}
+
+	public void keyReleased(KeyEvent e) {
+	}
+	
 	public void mouseClicked(MouseEvent e) {
 		int x = e.getX();
 		int y = e.getY();
@@ -59,73 +67,27 @@ public class Menu implements GameState {
 		}
 	}
 
-	private void select(int button) {
-		if (button == PLAY_BUTTON){
-			Game.setGameState(new School());
-		}
-		
+	public void mousePressed(MouseEvent e) {		
 	}
 
-	@Override
-	public void mousePressed(MouseEvent e) {
-		
-		
-	}
-
-	@Override
 	public void mouseReleased(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
 	}
 
-	@Override
 	public void mouseEntered(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
 	}
 
-	@Override
 	public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
 	}
-
-	@Override
-	public void keyPressed(KeyEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void keyTyped(KeyEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void keyReleased(KeyEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void mouseWheelMoved(MouseWheelEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
+	
+	
 	public void mouseMoved(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
 	}
 
-	@Override
 	public void mouseDragged(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
 	}
+	
 
-
+	public void mouseWheelMoved(MouseWheelEvent e) {
+	}
 
 }
