@@ -11,6 +11,7 @@ public class BlockMap {
 
 	private Block[][] map;
 	private Object[][] objects;
+	
 	double zoom;
 	int size;
 
@@ -20,8 +21,10 @@ public class BlockMap {
 	public BlockMap(){
 		map = new Block[100][100];
 		objects = new Object[100][100];
-		size = Game.HEIGHT/100;
+		
 		zoom = 1;
+		size = Game.HEIGHT/100;
+		
 		viewPosition = new Point(0,0);
 	}
 
@@ -151,32 +154,34 @@ public class BlockMap {
 	}
 
 	public boolean fixBounds(){
+		
+		boolean boundsChanged = false;
 		if (viewPosition.x > Game.WIDTH/2){
 
 			viewPosition.x = Game.WIDTH/2;
-			return true;
+			boundsChanged = true;
 		}
 		if (viewPosition.x + (size * 100) < Game.WIDTH/2){
 			viewPosition.x = (Game.WIDTH/2) - (size * 100);
-			return true;
+			boundsChanged = true;
 		}
 		if (viewPosition.y > Game.HEIGHT/2){
 			viewPosition.y = Game.HEIGHT/2;
-			return true;
+			boundsChanged = true;
 		}
 		if (viewPosition.y + (size * 100) < Game.HEIGHT/2){
 			viewPosition.y = (Game.HEIGHT/2) - (size * 100);
-			return true;
+			boundsChanged = true;
 		}
 		if (size > 100){
 			size = 100;
-			return true;
+			boundsChanged = true;
 		}
 		if (size < 4){
 			size = 4;
-			return true;
+			boundsChanged = true;
 		}
-		return false;
+		return boundsChanged;
 	}
 
 	public void place(int x, int y, Block blockToPlace){
@@ -212,8 +217,8 @@ public class BlockMap {
 		this.viewPosition = viewPosition;
 	}
 
-	public boolean contains(Point p){
-		if (p.x >= viewPosition.x && p.x <= viewPosition.x + (size * 100) && p.y >= viewPosition.y && p.y <= viewPosition.y + (size * 100) ){
+	public boolean contains(int x, int y){
+		if (x >= viewPosition.x && x <= viewPosition.x + (size * 100) && y >= viewPosition.y && y <= viewPosition.y + (size * 100) ){
 			return true;
 		} else{
 			return false;
