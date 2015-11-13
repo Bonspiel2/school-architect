@@ -150,7 +150,7 @@ public class School implements GameState {
 
 		for (int i = 0; i < bottomMenuButtons.length; i++){
 			if (bottomMenuButtons[i].containsPoint(x, y)){
-				switchMenu(BottomMenuOption.BLOCK);
+				switchMenu(i);
 				switched = true;
 				break;
 			}
@@ -163,7 +163,7 @@ public class School implements GameState {
 
 		default:
 			if (!switched){
-				switchMenu(BottomMenuOption.NOT_SELECTED);
+				switchMenu(-1);
 			}
 			break;
 		}
@@ -191,8 +191,15 @@ public class School implements GameState {
 
 	}
 
-	private void switchMenu(BottomMenuOption b){
-		option = b;
+	private void switchMenu(int optionNumber){
+		
+		if (optionNumber == 0){
+			option = BottomMenuOption.BUILDING;
+		} else if (optionNumber == 1){
+			option = BottomMenuOption.BLOCK;
+		} else {
+			option = BottomMenuOption.NOT_SELECTED;
+		}
 
 		switch(option){
 
