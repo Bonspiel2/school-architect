@@ -12,10 +12,10 @@ import java.awt.event.MouseWheelListener;
 
 import main.Game;
 import objectMap.BlockMap;
-import objectMap.Direction;
 import objectMap.MapInteractor;
+import objectMap.PlacingType;
 import objectMap.blocks.*;
-import utilities.Button;
+import utilities.*;
 
 public class School implements GameState {
 	
@@ -92,13 +92,15 @@ public class School implements GameState {
 		g.setColor(Color.WHITE);
 		g.fillRect(0, 0, Game.WIDTH, Game.HEIGHT);
 
-		if (placingBuilding){
-			blockMap.d
-		} else if (currentlyPlacing){
-			blockMap.draw(g, true, mousePosition, originPlacingPoint, blockToPlace);
-		} else{
-			blockMap.draw(g, placeable);
-		}
+//		if (placingBuilding){
+//			blockMap.d
+//		} else if (currentlyPlacing){
+//			blockMap.draw(g, true, mousePosition, originPlacingPoint, blockToPlace);
+//		} else{
+//			blockMap.draw(g, placeable);
+//		}
+		
+		map.draw(g, mousePosition);
 
 		/////Bottom Menu//////
 		g.setColor(new Color(0, 0, 0, 100));
@@ -118,12 +120,6 @@ public class School implements GameState {
 			for (Button b : optionButtons){
 				b.draw(g);
 			}
-		}
-
-		if (placeable){
-			int size = blockMap.getSize();
-
-			blockToPlace.draw(g, mousePosition.x - (size/2), mousePosition.y - (size/2), size);
 		}
 
 
@@ -168,12 +164,12 @@ public class School implements GameState {
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-
-		if (placeable){
-			currentlyPlacing = true;
-			originPlacingPoint = e.getPoint();
+		int x = e.getX();
+		int y = e.getY();
+		
+		if (!bottomMenuContains(x, y)){
+			map.startPlacing(x, y);
 		}
-
 
 	}
 
@@ -183,77 +179,10 @@ public class School implements GameState {
 		int x = e.getX();
 		int y = e.getY();
 
-		if (placeable){
-			if (!bottomMenuContains(x, y) && blockMap.contains(x, y)){
-				int size = blockMap.getSize();
-				if (blockToPlace.getPlacingType() == Block.LINE){
-					if (Math.abs(mousePosition.x - originPlacingPoint.x) >= Math.abs(mousePosition.y - originPlacingPoint.y)){
-						int mouseX = x;
-						int originX = originPlacingPoint.x;
-
-
-						if (mouseX < originX){
-							int temp = mouseX;
-							mouseX = originX;
-							originX = temp;
-							mouseX+=size/2;
-
-						}
-						for (int placingX = originX; placingX < mouseX; placingX+=size){
-							blockMap.place(placingX, originPlacingPoint.y, blockToPlace);
-						}
-
-					} else {
-						int mouseY = y;
-						int originY = originPlacingPoint.y;
-
-						if (mouseY < originY){
-							int temp = mouseY;
-							mouseY = originY;
-							originY = temp;
-							mouseY+=size/2;
-
-						}
-						for (int placingY = originY; placingY < mouseY; placingY+=size){
-							blockMap.place(originPlacingPoint.x, placingY, blockToPlace);
-						}
-					}
-				} else if (blockToPlace.getPlacingType() == Block.SQUARE) {
-
-					int mouseX = x;
-					int originX = originPlacingPoint.x;
-					int mouseY = y;
-					int originY = originPlacingPoint.y;
-
-					if (mouseX < originX){
-						int temp = mouseX;
-						mouseX = originX;
-						originX = temp;
-						mouseX+=size/2;
-
-					}
-
-					if (mouseY < originY){
-						int temp = mouseY;
-						mouseY = originY;
-						originY = temp;
-						mouseY+=size/2;
-
-					}
-					for (int placingX = originX; placingX < mouseX; placingX+=size){
-						for (int placingY = originY; placingY < mouseY; placingY+=size){
-							blockMap.place(placingX, placingY, blockToPlace);
-						}
-					}
-
-				}
-
-				currentlyPlacing = false;
-				if (!shiftHeld){
-					placeable = false;
-				}
-			}
+		if (!bottomMenuContains(x, y)){
+			map.endPlacing(x, y);
 		}
+		
 
 	}
 
@@ -276,37 +205,7 @@ public class School implements GameState {
 	}
 	
 	public void mouseWheelMoved(MouseWheelEvent e) {
-		int notches =  e.getWheelRotation();
-		int size = blockMap.getSize();
-
-		if (notches < 0){
-			if (size < 100){
-				blockMap.setSize(blockMap.getSize() + 1);
-
-				int newX = Math.round((e.getX() * 100/Game.WIDTH));
-				int newY = Math.round((e.getY() * 100/Game.HEIGHT));
-
-				Point oldPos = blockMap.getViewPosition();
-
-
-				blockMap.setViewPosition(new Point(oldPos.x - newX, oldPos.y - newY));
-			}
-		}else{
-			if (size > 4){
-				blockMap.setSize(blockMap.getSize() - 1);
-
-
-				int newX = Math.round((e.getX() * 100 /Game.WIDTH));
-				int newY = Math.round((e.getY() * 100/Game.HEIGHT));
-
-				Point oldPos = blockMap.getViewPosition();
-
-				blockMap.setViewPosition(new Point(oldPos.x + newX, oldPos.y + newY));
-			}
-		}
-
-
-
+		map.zoom(e.getX(), e.getY(), e.getWheelRotation());
 	}
 
 	@Override
@@ -356,16 +255,19 @@ public class School implements GameState {
 		switch(option) {
 		case BLOCK:
 			if (buttonNumber == GRASS_ID){
-				placeable = true;
-				blockToPlace = new Grass();
+				map.setPlaceable(true);
+				map.setPlacingType(PlacingType.LINE);
+				map.setBlockToPlace(new Grass());
 			} else if (buttonNumber == BRICK_ID){
-				placeable = true;
-				blockToPlace = new Brick();
+				map.setPlaceable(true);
+				map.setPlacingType(PlacingType.LINE);
+				map.setBlockToPlace(new Brick());
 			} else if (buttonNumber == TILE_ID){
-				placeable = true;
-				blockToPlace = new Tile();
+				map.setPlaceable(true);
+				map.setPlacingType(PlacingType.SQUARE);
+				map.setBlockToPlace(new Tile());
 			} else {
-				placeable = false;
+				map.setPlaceable(false);
 			}
 
 		}
@@ -393,10 +295,9 @@ public class School implements GameState {
 			clicked = true;
 			break;
 		case BUILDING:
-			placeable = true;
-			placingBuilding = true;
-			blockToPlace = new Brick();
-			break;
+			map.setPlaceable(true);
+			map.setPlacingType(PlacingType.BUILDING);
+			map.setBlockToPlace(new Brick());
 		case NOT_SELECTED:
 			optionButtons = new Button[0];
 			popUpMenuPosition = new Point(10, (Game.HEIGHT - 100));
