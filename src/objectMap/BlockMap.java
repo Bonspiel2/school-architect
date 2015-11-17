@@ -6,6 +6,7 @@ import java.awt.Point;
 
 import main.Game;
 import objectMap.blocks.*;
+import objectMap.objects.Object;
 
 public class BlockMap {
 
@@ -39,7 +40,7 @@ public class BlockMap {
 
 		for (int x = 0; x < objects.length; x++){
 			for (int y = 0; y < objects[0].length; y++){
-				objects[x][y] = new Object(0, 0, true);
+				objects[x][y] = null;
 			}
 		}
 

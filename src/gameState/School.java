@@ -9,12 +9,14 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
+import java.io.IOException;
 
 import main.Game;
 import objectMap.BlockMap;
 import objectMap.MapInteractor;
 import objectMap.PlacingType;
 import objectMap.blocks.*;
+import objectMap.objects.Desk;
 import utilities.*;
 
 public class School implements GameState {
@@ -121,6 +123,13 @@ public class School implements GameState {
 				b.draw(g);
 			}
 		}
+		
+		try {
+			new Desk().draw( 0, 0, 100);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 
 
@@ -180,7 +189,7 @@ public class School implements GameState {
 		int y = e.getY();
 
 		if (!bottomMenuContains(x, y)){
-			map.endPlacing(x, y);
+			map.endPlacing(x, y, shiftHeld);
 		}
 		
 
@@ -256,7 +265,7 @@ public class School implements GameState {
 		case BLOCK:
 			if (buttonNumber == GRASS_ID){
 				map.setPlaceable(true);
-				map.setPlacingType(PlacingType.LINE);
+				map.setPlacingType(PlacingType.SQUARE);
 				map.setBlockToPlace(new Grass());
 			} else if (buttonNumber == BRICK_ID){
 				map.setPlaceable(true);

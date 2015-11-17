@@ -8,8 +8,4 @@ public class Tile extends Block {
 		super(true, Color.GRAY);
 	}
 	
-	public int getPlacingType(){
-		return Block.SQUARE;
-	}
-
 }
