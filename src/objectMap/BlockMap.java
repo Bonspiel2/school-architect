@@ -12,7 +12,7 @@ public class BlockMap {
 
 	private Block[][] map;
 	private Object[][] objects;
-	
+
 	double zoom;
 	int size;
 
@@ -22,10 +22,10 @@ public class BlockMap {
 	public BlockMap(){
 		map = new Block[100][100];
 		objects = new Object[100][100];
-		
+
 		zoom = 1;
 		size = Game.HEIGHT/100;
-		
+
 		viewPosition = new Point(0,0);
 	}
 
@@ -40,7 +40,7 @@ public class BlockMap {
 
 		for (int x = 0; x < objects.length; x++){
 			for (int y = 0; y < objects[0].length; y++){
-				objects[x][y] = null;
+				objects[x][y] = new Object(false);
 			}
 		}
 
@@ -62,40 +62,16 @@ public class BlockMap {
 
 		}
 
-		//		for (int x = 0; x < objects.length; x++){
-		//			for (int y = 0; y < objects[0].length; y++){
-		//				objects[x][y].draw(g, (x * blockSize) - viewPosition.x, (y * blockSize) - viewPosition.y, blockSize);
-		//			}
-		//			
-		//		}
-	}
-
-	public void draw(Graphics2D g, boolean showGrid, Point mousePosition, Point originPosition, Block blockToPlace){
-
-		int blockSize = size;
-
-		for (int x = 0; x < map.length; x++){
-			for (int y = 0; y < map[0].length; y++){
-				map[x][y].draw(g, (x * blockSize) + viewPosition.x, (y * blockSize) + viewPosition.y, blockSize);
-				if (showGrid){
-					g.setColor(Color.BLACK);
-					g.fillRect((x * size) + viewPosition.x, (y * size) + viewPosition.y, 1, size);
-					g.fillRect((x * size) + viewPosition.x, (y * size) + viewPosition.y, size, 1);
-				}
+		for (int x = 0; x < objects.length; x++){
+			for (int y = 0; y < objects[0].length; y++){
+				objects[x][y].draw(g, (x * blockSize) - viewPosition.x, (y * blockSize) - viewPosition.y, blockSize);
 			}
 
-		}	
-
-		//		for (int x = 0; x < objects.length; x++){
-		//			for (int y = 0; y < objects[0].length; y++){
-		//				objects[x][y].draw(g, (x * blockSize) - viewPosition.x, (y * blockSize) - viewPosition.y, blockSize);
-		//			}
-		//			
-		//		}
+		}
 	}
 
 	public boolean fixBounds(){
-		
+
 		boolean boundsChanged = false;
 		if (viewPosition.x > Game.WIDTH/2){
 
@@ -125,9 +101,14 @@ public class BlockMap {
 		return boundsChanged;
 	}
 
-	public void place(int x, int y, Block blockToPlace){
+	public void place(int x, int y, Placeable itemToPlace){
 		int blockSize = (int) (size * zoom);
-		map[(int) ((x - viewPosition.x)/blockSize)][(int) ((y - viewPosition.y)/blockSize)] = blockToPlace;
+		
+		if (itemToPlace instanceof Block){
+			map[(int) ((x - viewPosition.x)/blockSize)][(int) ((y - viewPosition.y)/blockSize)] = (Block) itemToPlace;
+		} else if (itemToPlace instanceof Object){
+			objects[(int) ((x - viewPosition.x)/blockSize)][(int) ((y - viewPosition.y)/blockSize)] = (Object) itemToPlace;
+		}
 	}
 
 	///////GETTERS AND SETTERS////////

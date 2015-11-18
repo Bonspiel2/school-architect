@@ -15,7 +15,7 @@ public class MapInteractor {
 	private BlockMap blockMap;
 	private boolean placeable;
 	private boolean currentlyPlacing;
-	private Block blockToPlace;
+	private Placeable itemToPlace;
 
 	private PlacingType placingType;
 
@@ -75,7 +75,7 @@ public class MapInteractor {
 
 					}
 					for (int x = originX; x < mouseX; x++){
-						blockToPlace.draw(g, (x * size) + viewPosition.x, (y * size) + viewPosition.y, size);
+						itemToPlace.draw(g, (x * size) + viewPosition.x, (y * size) + viewPosition.y, size);
 					}
 
 				} else {
@@ -89,7 +89,7 @@ public class MapInteractor {
 						mouseY++;
 					}
 					for (int y = originY; y < mouseY; y++){
-						blockToPlace.draw(g, (x * size) + viewPosition.x, (y * size) + viewPosition.y, size);
+						itemToPlace.draw(g, (x * size) + viewPosition.x, (y * size) + viewPosition.y, size);
 					}
 				}
 				break;
@@ -117,7 +117,7 @@ public class MapInteractor {
 
 				for (int x = originX; x < mouseX; x++){
 					for (int y = originY; y < mouseY; y++){
-						blockToPlace.draw(g, (x * size) + viewPosition.x, (y * size) + viewPosition.y, size);
+						itemToPlace.draw(g, (x * size) + viewPosition.x, (y * size) + viewPosition.y, size);
 					}
 				}
 				break;
@@ -146,7 +146,7 @@ public class MapInteractor {
 				for (int x = originX; x < mouseX; x++){
 					for (int y = originY; y < mouseY; y++){
 						if (x == originX || x == mouseX - 1 || y == originY || y == mouseY - 1){
-							blockToPlace.draw(g, (x * size) + viewPosition.x, (y * size) + viewPosition.y, size);
+							itemToPlace.draw(g, (x * size) + viewPosition.x, (y * size) + viewPosition.y, size);
 						} else {
 							new Tile().draw(g, (x * size) + viewPosition.x, (y * size) + viewPosition.y, size);
 						}
@@ -155,9 +155,10 @@ public class MapInteractor {
 				}
 				break;
 			}
-			case NONE:
+			case OBJECT: {
 				break;
-			case OBJECT:
+			}
+			case NONE:
 				break;
 			default:
 				break;
@@ -168,7 +169,7 @@ public class MapInteractor {
 		if (placeable){
 			int size = blockMap.getSize();
 
-			blockToPlace.draw(g, mousePosition.x - (size/2), mousePosition.y - (size/2), size);
+			itemToPlace.draw(g, mousePosition.x - (size/2), mousePosition.y - (size/2), size);
 		}
 	}
 
@@ -200,7 +201,7 @@ public class MapInteractor {
 
 						}
 						for (int placingX = originX; placingX < mouseX; placingX+=size){
-							blockMap.place(placingX, originPosition.y, blockToPlace);
+							blockMap.place(placingX, originPosition.y, itemToPlace);
 						}
 
 					} else {
@@ -215,7 +216,7 @@ public class MapInteractor {
 
 						}
 						for (int placingY = originY; placingY < mouseY; placingY+=size){
-							blockMap.place(originPosition.x, placingY, blockToPlace);
+							blockMap.place(originPosition.x, placingY, itemToPlace);
 						}
 					}
 					break;
@@ -243,7 +244,7 @@ public class MapInteractor {
 					}
 					for (int placingX = originX; placingX < mouseX; placingX+=size){
 						for (int placingY = originY; placingY < mouseY; placingY+=size){
-							blockMap.place(placingX, placingY, blockToPlace);
+							blockMap.place(placingX, placingY, itemToPlace);
 						}
 					}
 					break;
@@ -272,7 +273,7 @@ public class MapInteractor {
 					for (int placingX = originX; placingX < mouseX; placingX+=size){
 						for (int placingY = originY; placingY < mouseY; placingY+=size){
 							if (placingX == originX || placingX + size >= mouseX || placingY == originY || placingY + size >= mouseY){
-								blockMap.place(placingX, placingY, blockToPlace);
+								blockMap.place(placingX, placingY, itemToPlace);
 							} else {
 								blockMap.place(placingX, placingY, new Tile());
 							}
@@ -280,9 +281,10 @@ public class MapInteractor {
 					}
 					break;
 				}
-				case NONE:
+				case OBJECT:{
 					break;
-				case OBJECT:
+				}
+				case NONE:
 					break;
 				default:
 					break;
@@ -339,20 +341,21 @@ public class MapInteractor {
 		this.placeable = placeable;
 	}
 
-	public Block getBlockToPlace() {
-		return blockToPlace;
-	}
-
-	public void setBlockToPlace(Block blockToPlace) {
-		this.blockToPlace = blockToPlace;
-	}
-
 	public PlacingType getPlacingType() {
 		return placingType;
 	}
 
 	public void setPlacingType(PlacingType placingType) {
 		this.placingType = placingType;
+	}
+
+
+	public Placeable getItemToPlace() {
+		return itemToPlace;
+	}
+
+	public void setItemToPlace(Placeable itemToPlace) {
+		this.itemToPlace = itemToPlace;
 	}
 
 

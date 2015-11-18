@@ -3,7 +3,9 @@ package objectMap.blocks;
 import java.awt.Color;
 import java.awt.Graphics2D;
 
-public class Block {
+import objectMap.Placeable;
+
+public class Block implements Placeable{
 	
 	
 	boolean traversable;

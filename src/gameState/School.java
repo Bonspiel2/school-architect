@@ -26,19 +26,16 @@ public class School implements GameState {
 	private final int GRASS_ID = 0;
 	private final int BRICK_ID = 1;
 	private final int TILE_ID = 2;
+	
+	private final int DESK_ID = 0;
 	private boolean left, right, up, down;
-	private final int cameraSpeed = 5;
 
-	private boolean placeable;
-	private boolean currentlyPlacing;
-	private Point originPlacingPoint;
-	private Block blockToPlace;
 	private boolean shiftHeld;
-	private boolean placingBuilding;
 
 	/////Bottom Menu/////
-	private Button[] bottomMenuButtons = {	new Button(10, (Game.HEIGHT - 40), 50, 30, "Building"),
-			new Button(70, (Game.HEIGHT - 40), 50, 30, "Blocks")};
+	private Button[] bottomMenuButtons = {new Button(10, (Game.HEIGHT - 40), 50, 30, "Building"),
+											new Button(70, (Game.HEIGHT - 40), 50, 30, "Blocks"),
+											new Button(130, (Game.HEIGHT - 40), 50, 30, "Objects")};
 	private Button[] optionButtons;
 	private boolean clicked;
 	private Point popUpMenuPosition;
@@ -52,10 +49,6 @@ public class School implements GameState {
 		
 		map = new MapInteractor();
 
-		placeable = false;
-		currentlyPlacing = false;
-		originPlacingPoint = new Point(0,0);
-		blockToPlace = new Grass();
 		shiftHeld = false;
 
 		/////Bottom Menu/////
@@ -64,7 +57,7 @@ public class School implements GameState {
 		popUpMenuPosition = new Point(10, (Game.HEIGHT - 100));
 		option = BottomMenuOption.NOT_SELECTED;
 
-		mousePosition = new Point(600, 500); 
+		mousePosition = new Point(600, 500);
 
 	}
 
@@ -124,13 +117,6 @@ public class School implements GameState {
 			}
 		}
 		
-		try {
-			new Desk().draw( 0, 0, 100);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
 
 
 	}
@@ -262,23 +248,32 @@ public class School implements GameState {
 	private void selectOption(int buttonNumber) {
 
 		switch(option) {
-		case BLOCK:
+		case BLOCK:{
 			if (buttonNumber == GRASS_ID){
 				map.setPlaceable(true);
 				map.setPlacingType(PlacingType.SQUARE);
-				map.setBlockToPlace(new Grass());
+				map.setItemToPlace(new Grass());
 			} else if (buttonNumber == BRICK_ID){
 				map.setPlaceable(true);
 				map.setPlacingType(PlacingType.LINE);
-				map.setBlockToPlace(new Brick());
+				map.setItemToPlace(new Brick());
 			} else if (buttonNumber == TILE_ID){
 				map.setPlaceable(true);
 				map.setPlacingType(PlacingType.SQUARE);
-				map.setBlockToPlace(new Tile());
+				map.setItemToPlace(new Tile());
 			} else {
 				map.setPlaceable(false);
 			}
-
+			break;
+		}
+		case OBJECT:{
+			if (buttonNumber == DESK_ID){
+				map.setPlaceable(true);
+				map.setPlacingType(PlacingType.OBJECT);
+				map.setItemToPlace(new Desk());
+			}
+			break;
+		}
 		}
 
 	}
@@ -289,13 +284,15 @@ public class School implements GameState {
 			option = BottomMenuOption.BUILDING;
 		} else if (optionNumber == 1){
 			option = BottomMenuOption.BLOCK;
+		} else if (optionNumber == 2) {
+			option = BottomMenuOption.OBJECT;
 		} else {
 			option = BottomMenuOption.NOT_SELECTED;
 		}
 
 		switch(option){
 
-		case BLOCK:
+		case BLOCK: {
 			optionButtons = new Button[3];
 			optionButtons[0] = new Button(20, (Game.HEIGHT - 90), 30, 30, "Grass");
 			optionButtons[1] = new Button(60, (Game.HEIGHT - 90), 30, 30, "Brick");
@@ -303,14 +300,29 @@ public class School implements GameState {
 			popUpMenuPosition = new Point(10, (Game.HEIGHT - 100));
 			clicked = true;
 			break;
-		case BUILDING:
+		}
+		case BUILDING: {
+			optionButtons = new Button[0];
+			clicked = false;
 			map.setPlaceable(true);
 			map.setPlacingType(PlacingType.BUILDING);
-			map.setBlockToPlace(new Brick());
-		case NOT_SELECTED:
+			map.setItemToPlace(new Brick());
+			break;
+		}
+		case OBJECT: {
+			optionButtons = new Button[1];
+			optionButtons[0] = new Button(60, (Game.HEIGHT - 90), 30, 30, "Desk");
+			popUpMenuPosition = new Point(50, (Game.HEIGHT - 100));
+			clicked = true;
+			break;
+		}
+		case NOT_SELECTED: {
 			optionButtons = new Button[0];
 			popUpMenuPosition = new Point(10, (Game.HEIGHT - 100));
 			clicked = false;
+			break;
+		}
+		default:
 			break;
 		}
 

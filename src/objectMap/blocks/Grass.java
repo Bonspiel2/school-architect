@@ -3,7 +3,9 @@ package objectMap.blocks;
 import java.awt.Color;
 import java.awt.Graphics2D;
 
-public class Grass extends Block{
+import objectMap.Placeable;
+
+public class Grass extends Block implements Placeable{
 
 	public Grass(){
 		super(true, Color.GREEN);

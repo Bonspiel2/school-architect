@@ -4,19 +4,17 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
-public class Object {
+import objectMap.Placeable;
+
+public class Object implements Placeable{
 	
 	boolean traversable;
-	BufferedImage sprite;
 	
-	public Object(boolean traversable, BufferedImage sprite){
+	public Object(boolean traversable){
 		this.traversable = traversable;
-		this.sprite = sprite;
 	}
 
-	public void draw(int x, int y, int size) {
-		BufferedImage resizedImage = new BufferedImage(size, size, BufferedImage.TYPE_3BYTE_BGR);
-		Graphics2D g = resizedImage.createGraphics();
-		g.drawImage(sprite, x, y, null);
+
+	public void draw(Graphics2D g, int x, int y, int size) {
 	}
 }
