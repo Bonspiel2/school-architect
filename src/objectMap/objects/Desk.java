@@ -8,6 +8,7 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+import objectMap.BlockMap;
 import objectMap.Placeable;
 
 public class Desk extends Object implements Placeable{
@@ -17,11 +18,7 @@ public class Desk extends Object implements Placeable{
 	public Desk(){
 		super(true);
 		
-		try {
-			sprite = ImageIO.read(new File("src/resources/objects.png"));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		sprite = BlockMap.OBJECT_SPRITESHEET;
 		
 	}
 	

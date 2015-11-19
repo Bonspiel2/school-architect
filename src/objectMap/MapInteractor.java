@@ -8,6 +8,8 @@ import java.awt.event.MouseWheelEvent;
 import main.Game;
 import objectMap.blocks.Block;
 import objectMap.blocks.Tile;
+import objectMap.objects.*;
+import objectMap.objects.Object;
 import utilities.Direction;
 
 public class MapInteractor {
@@ -30,6 +32,7 @@ public class MapInteractor {
 		currentlyPlacing = false;
 
 		placingType = PlacingType.NONE;
+		itemToPlace = new Object(true);
 
 
 	}
@@ -52,6 +55,8 @@ public class MapInteractor {
 			blockMap.setViewPosition(new Point(pos.x, pos.y-cameraSpeed));
 			break;
 		}
+		
+		blockMap.fixBounds();
 	}
 
 	public void draw(Graphics2D g, Point mousePosition){
@@ -156,6 +161,10 @@ public class MapInteractor {
 				break;
 			}
 			case OBJECT: {
+				int x = (int) ((originPosition.x - viewPosition.x)/size);
+				int y = (int) ((originPosition.y - viewPosition.y)/size);
+				
+				itemToPlace.draw(g, (x * size) + viewPosition.x, (y * size) + viewPosition.y, size);
 				break;
 			}
 			case NONE:
@@ -282,6 +291,7 @@ public class MapInteractor {
 					break;
 				}
 				case OBJECT:{
+					blockMap.place(originPosition.x, originPosition.y, itemToPlace);
 					break;
 				}
 				case NONE:
@@ -328,6 +338,8 @@ public class MapInteractor {
 				blockMap.setViewPosition(new Point(oldPos.x + newX, oldPos.y + newY));
 			}
 		}
+		
+		blockMap.fixBounds();
 
 
 

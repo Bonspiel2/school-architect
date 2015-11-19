@@ -3,13 +3,29 @@ package objectMap;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Point;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
 
 import main.Game;
 import objectMap.blocks.*;
+import objectMap.objects.Desk;
 import objectMap.objects.Object;
 
 public class BlockMap {
-
+	
+	public static BufferedImage OBJECT_SPRITESHEET;{
+	
+		try{
+			OBJECT_SPRITESHEET = ImageIO.read(new File("src/resources/objects.png"));
+		} 
+		catch(Exception e){
+			e.printStackTrace();
+		}
+	}
+	
 	private Block[][] map;
 	private Object[][] objects;
 
@@ -43,6 +59,7 @@ public class BlockMap {
 				objects[x][y] = new Object(false);
 			}
 		}
+		
 
 	}
 
@@ -64,7 +81,7 @@ public class BlockMap {
 
 		for (int x = 0; x < objects.length; x++){
 			for (int y = 0; y < objects[0].length; y++){
-				objects[x][y].draw(g, (x * blockSize) - viewPosition.x, (y * blockSize) - viewPosition.y, blockSize);
+				objects[x][y].draw(g, (x * blockSize) + viewPosition.x, (y * blockSize) + viewPosition.y, blockSize);
 			}
 
 		}

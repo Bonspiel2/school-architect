@@ -11,6 +11,7 @@ import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 import java.io.IOException;
 
+import javafx.scene.input.MouseButton;
 import main.Game;
 import objectMap.BlockMap;
 import objectMap.MapInteractor;
@@ -161,9 +162,13 @@ public class School implements GameState {
 	public void mousePressed(MouseEvent e) {
 		int x = e.getX();
 		int y = e.getY();
+		int button = e.getButton();
 		
-		if (!bottomMenuContains(x, y)){
+		if (!bottomMenuContains(x, y) && button == MouseEvent.BUTTON1){
 			map.startPlacing(x, y);
+		} else if(button == MouseEvent.BUTTON2){
+			map.setPlaceable(false);
+		} else if(button == MouseEvent.BUTTON3){
 		}
 
 	}
