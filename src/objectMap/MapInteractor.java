@@ -61,7 +61,7 @@ public class MapInteractor {
 
 	public void draw(Graphics2D g, Point mousePosition){
 
-		blockMap.draw(g, placeable);
+		blockMap.drawBlocks(g, placeable);
 
 		if (currentlyPlacing){
 			Point viewPosition = blockMap.getViewPosition();
@@ -174,6 +174,8 @@ public class MapInteractor {
 
 			}
 		}
+		
+		blockMap.drawObjects(g);
 
 		if (placeable){
 			int size = blockMap.getSize();

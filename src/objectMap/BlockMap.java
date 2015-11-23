@@ -63,13 +63,11 @@ public class BlockMap {
 
 	}
 
-	public void draw(Graphics2D g, boolean showGrid){
-
-		int blockSize = size;
+	public void drawBlocks(Graphics2D g, boolean showGrid){
 
 		for (int x = 0; x < map.length; x++){
 			for (int y = 0; y < map[0].length; y++){
-				map[x][y].draw(g, (x * blockSize) + viewPosition.x, (y * blockSize) + viewPosition.y, blockSize);
+				map[x][y].draw(g, (x * size) + viewPosition.x, (y * size) + viewPosition.y, size);
 				if (showGrid){
 					g.setColor(Color.BLACK);
 					g.fillRect((x * size) + viewPosition.x, (y * size) + viewPosition.y, 1, size);
@@ -78,10 +76,12 @@ public class BlockMap {
 			}
 
 		}
-
+	}
+	
+	public void drawObjects(Graphics2D g){
 		for (int x = 0; x < objects.length; x++){
 			for (int y = 0; y < objects[0].length; y++){
-				objects[x][y].draw(g, (x * blockSize) + viewPosition.x, (y * blockSize) + viewPosition.y, blockSize);
+				objects[x][y].draw(g, (x * size) + viewPosition.x, (y * size) + viewPosition.y, size);
 			}
 
 		}
@@ -119,12 +119,12 @@ public class BlockMap {
 	}
 
 	public void place(int x, int y, Placeable itemToPlace){
-		int blockSize = (int) (size * zoom);
+		int size = (int) (this.size * zoom);
 		
 		if (itemToPlace instanceof Block){
-			map[(int) ((x - viewPosition.x)/blockSize)][(int) ((y - viewPosition.y)/blockSize)] = (Block) itemToPlace;
+			map[(int) ((x - viewPosition.x)/size)][(int) ((y - viewPosition.y)/size)] = (Block) itemToPlace;
 		} else if (itemToPlace instanceof Object){
-			objects[(int) ((x - viewPosition.x)/blockSize)][(int) ((y - viewPosition.y)/blockSize)] = (Object) itemToPlace;
+			objects[(int) ((x - viewPosition.x)/size)][(int) ((y - viewPosition.y)/size)] = (Object) itemToPlace;
 		}
 	}
 

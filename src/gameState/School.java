@@ -11,7 +11,6 @@ import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 import java.io.IOException;
 
-import javafx.scene.input.MouseButton;
 import main.Game;
 import objectMap.BlockMap;
 import objectMap.MapInteractor;
