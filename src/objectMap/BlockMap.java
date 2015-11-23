@@ -26,6 +26,8 @@ public class BlockMap {
 		}
 	}
 	
+	public static final int SPRITE_SIZE = 100;
+	
 	private Block[][] map;
 	private Object[][] objects;
 

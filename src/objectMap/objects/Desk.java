@@ -13,17 +13,26 @@ import objectMap.Placeable;
 
 public class Desk extends Object implements Placeable{
 	
-	BufferedImage sprite;
+	static final BufferedImage SPRITE_VERTICAL = BlockMap.OBJECT_SPRITESHEET.getSubimage(0, 0, BlockMap.SPRITE_SIZE, BlockMap.SPRITE_SIZE);
+	static final BufferedImage SPRITE_HORIZONTAL = BlockMap.OBJECT_SPRITESHEET.getSubimage(0, BlockMap.SPRITE_SIZE * 1, BlockMap.SPRITE_SIZE, BlockMap.SPRITE_SIZE);
+	
+	
+	private final boolean VERTICAL = true;
+	private final boolean HORIZONTAL = false;
+	private boolean orientation;
+	
 
 	public Desk(){
 		super(true);
-		
-		sprite = BlockMap.OBJECT_SPRITESHEET;
-		
+		orientation = VERTICAL;
 	}
 	
 	public void draw(Graphics2D g, int x, int y, int size){
-		g.drawImage(sprite, x, y, size, size, null);
+		if (orientation == VERTICAL){
+			g.drawImage(SPRITE_VERTICAL, x, y, size, size, null);
+		} else {
+			g.drawImage(SPRITE_HORIZONTAL, x, y, size, size, null);
+		}
 	}
 
 }

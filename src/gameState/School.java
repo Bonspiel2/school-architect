@@ -165,11 +165,10 @@ public class School implements GameState {
 		
 		if (!bottomMenuContains(x, y) && button == MouseEvent.BUTTON1){
 			map.startPlacing(x, y);
-		} else if(button == MouseEvent.BUTTON2){
-			map.setPlaceable(false);
 		} else if(button == MouseEvent.BUTTON3){
+			map.setPlaceable(false);
+		} else if(button == MouseEvent.BUTTON2){
 		}
-
 	}
 
 	@Override
@@ -177,6 +176,7 @@ public class School implements GameState {
 
 		int x = e.getX();
 		int y = e.getY();
+		int button = e.getButton();
 
 		if (!bottomMenuContains(x, y)){
 			map.endPlacing(x, y, shiftHeld);
