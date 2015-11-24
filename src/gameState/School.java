@@ -34,8 +34,8 @@ public class School implements GameState {
 
 	/////Bottom Menu/////
 	private Button[] bottomMenuButtons = {new Button(10, (Game.HEIGHT - 40), 50, 30, "Building"),
-											new Button(70, (Game.HEIGHT - 40), 50, 30, "Blocks"),
-											new Button(130, (Game.HEIGHT - 40), 50, 30, "Objects")};
+										  new Button(70, (Game.HEIGHT - 40), 50, 30, "Blocks"),
+										  new Button(130, (Game.HEIGHT - 40), 50, 30, "Objects")};
 	private Button[] optionButtons;
 	private boolean clicked;
 	private Point popUpMenuPosition;
@@ -58,6 +58,7 @@ public class School implements GameState {
 		option = BottomMenuOption.NOT_SELECTED;
 
 		mousePosition = new Point(600, 500);
+		
 
 	}
 
@@ -167,7 +168,8 @@ public class School implements GameState {
 			map.startPlacing(x, y);
 		} else if(button == MouseEvent.BUTTON3){
 			map.setPlaceable(false);
-		} else if(button == MouseEvent.BUTTON2){
+		} else if(button == MouseEvent.BUTTON2 && map.getPlacingType() == PlacingType.OBJECT){
+			map.switchOrientation();
 		}
 	}
 
@@ -178,7 +180,7 @@ public class School implements GameState {
 		int y = e.getY();
 		int button = e.getButton();
 
-		if (!bottomMenuContains(x, y)){
+		if (!bottomMenuContains(x, y) && button == MouseEvent.BUTTON1){
 			map.endPlacing(x, y, shiftHeld);
 		}
 		

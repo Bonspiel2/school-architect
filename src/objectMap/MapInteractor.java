@@ -371,6 +371,10 @@ public class MapInteractor {
 	public void setItemToPlace(Placeable itemToPlace) {
 		this.itemToPlace = itemToPlace;
 	}
+	
+	public void switchOrientation(){
+		((Object) itemToPlace).switchOrientation();
+	}
 
 
 

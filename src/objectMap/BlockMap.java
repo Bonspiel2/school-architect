@@ -13,19 +13,10 @@ import main.Game;
 import objectMap.blocks.*;
 import objectMap.objects.Desk;
 import objectMap.objects.Object;
+import resources.SpriteSheet;
 
 public class BlockMap {
-	
-	public static BufferedImage OBJECT_SPRITESHEET;{
-	
-		try{
-			OBJECT_SPRITESHEET = ImageIO.read(new File("src/resources/objects.png"));
-		} 
-		catch(Exception e){
-			e.printStackTrace();
-		}
-	}
-	
+
 	public static final int SPRITE_SIZE = 100;
 	
 	private Block[][] map;
@@ -60,6 +51,16 @@ public class BlockMap {
 			for (int y = 0; y < objects[0].length; y++){
 				objects[x][y] = new Object(false);
 			}
+		}
+		
+		String[] objectNames = {"deskVertical", "deskHorizontal"};
+		
+		try {
+			SpriteSheet.addSprites(ImageIO.read(new File("src/resources/objects.png")), 
+									100, 2, 1, objectNames);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		
 
