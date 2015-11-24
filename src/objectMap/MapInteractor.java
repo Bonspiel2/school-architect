@@ -294,6 +294,7 @@ public class MapInteractor {
 				}
 				case OBJECT:{
 					blockMap.place(originPosition.x, originPosition.y, itemToPlace);
+					itemToPlace = itemToPlace.clone();
 					break;
 				}
 				case NONE:
@@ -306,6 +307,7 @@ public class MapInteractor {
 				currentlyPlacing = false;
 				if (!shiftHeld){
 					placeable = false;
+					itemToPlace = new Object(true);
 				}
 			}
 		}
