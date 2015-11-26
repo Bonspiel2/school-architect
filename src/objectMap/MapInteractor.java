@@ -32,7 +32,7 @@ public class MapInteractor {
 		currentlyPlacing = false;
 
 		placingType = PlacingType.NONE;
-		itemToPlace = new Object(true);
+		itemToPlace = new Object(true, Object.VERTICAL);
 
 
 	}
@@ -294,7 +294,7 @@ public class MapInteractor {
 				}
 				case OBJECT:{
 					blockMap.place(originPosition.x, originPosition.y, itemToPlace);
-					itemToPlace = itemToPlace.clone();
+					itemToPlace = ((Object) itemToPlace).clone();
 					break;
 				}
 				case NONE:
@@ -307,7 +307,7 @@ public class MapInteractor {
 				currentlyPlacing = false;
 				if (!shiftHeld){
 					placeable = false;
-					itemToPlace = new Object(true);
+					itemToPlace = new Object(true, Object.VERTICAL);
 				}
 			}
 		}

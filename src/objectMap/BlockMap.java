@@ -49,15 +49,15 @@ public class BlockMap {
 
 		for (int x = 0; x < objects.length; x++){
 			for (int y = 0; y < objects[0].length; y++){
-				objects[x][y] = new Object(false);
+				objects[x][y] = new Object(false, Object.VERTICAL);
 			}
 		}
 		
-		String[] objectNames = {"deskVertical", "deskHorizontal"};
+		String[] objectNames = {"deskVertical", "deskHorizontal", "doorVertical", "doorHorizontal"};
 		
 		try {
 			SpriteSheet.addSprites(ImageIO.read(new File("src/resources/objects.png")), 
-									100, 2, 1, objectNames);
+									100, 4, 1, objectNames);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

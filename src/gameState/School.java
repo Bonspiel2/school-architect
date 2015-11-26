@@ -16,7 +16,8 @@ import objectMap.BlockMap;
 import objectMap.MapInteractor;
 import objectMap.PlacingType;
 import objectMap.blocks.*;
-import objectMap.objects.Desk;
+import objectMap.objects.*;
+import objectMap.objects.Object;
 import utilities.*;
 
 public class School implements GameState {
@@ -28,6 +29,7 @@ public class School implements GameState {
 	private final int TILE_ID = 2;
 	
 	private final int DESK_ID = 0;
+	private final int DOOR_ID = 1;
 	private boolean left, right, up, down;
 
 	private boolean shiftHeld;
@@ -277,6 +279,10 @@ public class School implements GameState {
 				map.setPlaceable(true);
 				map.setPlacingType(PlacingType.OBJECT);
 				map.setItemToPlace(new Desk());
+			} else if (buttonNumber == DOOR_ID){
+				map.setPlaceable(true);
+				map.setPlacingType(PlacingType.OBJECT);
+				map.setItemToPlace(new Door());
 			}
 			break;
 		}
@@ -316,8 +322,9 @@ public class School implements GameState {
 			break;
 		}
 		case OBJECT: {
-			optionButtons = new Button[1];
+			optionButtons = new Button[2];
 			optionButtons[0] = new Button(60, (Game.HEIGHT - 90), 30, 30, "Desk");
+			optionButtons[1] = new Button(100, (Game.HEIGHT - 90), 30, 30, "Door");
 			popUpMenuPosition = new Point(50, (Game.HEIGHT - 100));
 			clicked = true;
 			break;

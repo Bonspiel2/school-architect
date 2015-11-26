@@ -14,7 +14,7 @@ public class Object implements Placeable{
 	boolean traversable;
 	private boolean orientation;
 	
-	public Object(boolean traversable, orientation){
+	public Object(boolean traversable, boolean orientation){
 		this.traversable = traversable;
 		setOrientation(VERTICAL);
 	}
@@ -45,6 +45,6 @@ public class Object implements Placeable{
 	}
 	
 	public Object clone(){
-		return
+		return new Object(traversable, orientation);
 	}
 }

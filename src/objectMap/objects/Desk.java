@@ -16,15 +16,23 @@ public class Desk extends Object implements Placeable{
 	
 
 	public Desk(){
-		super(true);
+		super(true, VERTICAL);
 	}
 	
 	public void draw(Graphics2D g, int x, int y, int size){
-		if (super.getOrientation() == VERTICAL){
+		if (getOrientation() == VERTICAL){
 			g.drawImage(SpriteSheet.getSprite("deskVertical"), x, y, size, size, null);
 		} else {
 			g.drawImage(SpriteSheet.getSprite("deskHorizontal"), x, y, size, size, null);
 		}
+	}
+	
+	public Desk clone(){
+		Desk returnDesk = new Desk();
+		
+		returnDesk.setOrientation(getOrientation());
+		
+		return returnDesk;
 	}
 
 }
