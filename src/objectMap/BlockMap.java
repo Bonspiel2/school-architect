@@ -12,6 +12,7 @@ import javax.imageio.ImageIO;
 import main.Game;
 import objectMap.blocks.*;
 import objectMap.objects.Desk;
+import objectMap.objects.Door;
 import objectMap.objects.Object;
 import resources.SpriteSheet;
 
@@ -126,9 +127,21 @@ public class BlockMap {
 		
 		if (itemToPlace instanceof Block){
 			map[(int) ((x - viewPosition.x)/size)][(int) ((y - viewPosition.y)/size)] = (Block) itemToPlace;
+		} else if (itemToPlace instanceof Door){
+			
+			objects[(int) ((x - viewPosition.x)/size)][(int) ((y - viewPosition.y)/size)] = (Object) itemToPlace;
+			
+			if (!map[(int) ((x - viewPosition.x)/size)][(int) ((y - viewPosition.y)/size)].isTraversable()){
+				map[(int) ((x - viewPosition.x)/size)][(int) ((y - viewPosition.y)/size)] = new Tile();
+			}
+			
 		} else if (itemToPlace instanceof Object){
 			objects[(int) ((x - viewPosition.x)/size)][(int) ((y - viewPosition.y)/size)] = (Object) itemToPlace;
 		}
+	}
+	
+	public void interact(int x, int y){
+		objects[(int) ((x - viewPosition.x)/size)][(int) ((y - viewPosition.y)/size)].interact();
 	}
 
 	///////GETTERS AND SETTERS////////

@@ -14,10 +14,12 @@ import utilities.Direction;
 
 public class MapInteractor {
 
-	private BlockMap blockMap;
+	public static BlockMap blockMap;
+	
 	private boolean placeable;
 	private boolean currentlyPlacing;
 	private Placeable itemToPlace;
+	private boolean justPlaced;
 
 	private PlacingType placingType;
 
@@ -33,6 +35,7 @@ public class MapInteractor {
 
 		placingType = PlacingType.NONE;
 		itemToPlace = new Object(true, Object.VERTICAL);
+		justPlaced = false;
 
 
 	}
@@ -295,6 +298,7 @@ public class MapInteractor {
 				case OBJECT:{
 					blockMap.place(originPosition.x, originPosition.y, itemToPlace);
 					itemToPlace = ((Object) itemToPlace).clone();
+					justPlaced = true;
 					break;
 				}
 				case NONE:
@@ -376,6 +380,14 @@ public class MapInteractor {
 	
 	public void switchOrientation(){
 		((Object) itemToPlace).switchOrientation();
+	}
+	
+	public void click(int x, int y, int button){
+		if (!justPlaced && blockMap.contains(x, y)){
+			blockMap.interact(x, y);
+		} else {
+			justPlaced = false;
+		}
 	}
 
 

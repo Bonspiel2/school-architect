@@ -21,4 +21,8 @@ public class Block implements Placeable{
 		g.fillRect(x, y, size, size);
 	}
 
+	public boolean isTraversable() {
+		return traversable;
+	}
+
 }

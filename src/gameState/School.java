@@ -30,6 +30,7 @@ public class School implements GameState {
 	
 	private final int DESK_ID = 0;
 	private final int DOOR_ID = 1;
+	private final int REMOVE_ID = 2;
 	private boolean left, right, up, down;
 
 	private boolean shiftHeld;
@@ -129,6 +130,7 @@ public class School implements GameState {
 
 		int x = e.getX();
 		int y = e.getY();
+		int button = e.getButton();
 
 		for (int i = 0; i < optionButtons.length; i++){
 			if (optionButtons[i].containsPoint(x, y)){
@@ -156,6 +158,10 @@ public class School implements GameState {
 				switchMenu(-1);
 			}
 			break;
+		}
+		
+		if (!bottomMenuContains(x,y)){
+			map.click(x, y, button);
 		}
 
 	}
@@ -283,6 +289,10 @@ public class School implements GameState {
 				map.setPlaceable(true);
 				map.setPlacingType(PlacingType.OBJECT);
 				map.setItemToPlace(new Door());
+			} else if (buttonNumber == REMOVE_ID){
+				map.setPlaceable(true);
+				map.setPlacingType(PlacingType.OBJECT);
+				map.setItemToPlace(new Object(true, false));
 			}
 			break;
 		}
@@ -322,9 +332,10 @@ public class School implements GameState {
 			break;
 		}
 		case OBJECT: {
-			optionButtons = new Button[2];
+			optionButtons = new Button[3];
 			optionButtons[0] = new Button(60, (Game.HEIGHT - 90), 30, 30, "Desk");
 			optionButtons[1] = new Button(100, (Game.HEIGHT - 90), 30, 30, "Door");
+			optionButtons[2] = new Button(140, (Game.HEIGHT - 90), 30, 30, "Remove");
 			popUpMenuPosition = new Point(50, (Game.HEIGHT - 100));
 			clicked = true;
 			break;

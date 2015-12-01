@@ -47,4 +47,7 @@ public class Object implements Placeable{
 	public Object clone(){
 		return new Object(traversable, orientation);
 	}
+	
+	public void interact(){
+	}
 }
