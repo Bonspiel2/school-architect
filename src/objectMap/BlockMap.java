@@ -143,6 +143,14 @@ public class BlockMap {
 	public void interact(int x, int y){
 		objects[(int) ((x - viewPosition.x)/size)][(int) ((y - viewPosition.y)/size)].interact();
 	}
+	
+	public boolean isEmpty(int x, int y){
+		if (objects[x][y].isEmpty()){
+			return true;
+		} else {
+			return false;
+		}
+	}
 
 	///////GETTERS AND SETTERS////////
 

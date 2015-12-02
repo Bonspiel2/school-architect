@@ -50,4 +50,9 @@ public class Object implements Placeable{
 	
 	public void interact(){
 	}
+
+
+	public boolean isEmpty() {
+		return true;
+	}
 }

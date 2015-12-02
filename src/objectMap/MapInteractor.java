@@ -83,7 +83,9 @@ public class MapInteractor {
 
 					}
 					for (int x = originX; x < mouseX; x++){
-						itemToPlace.draw(g, (x * size) + viewPosition.x, (y * size) + viewPosition.y, size);
+						if (blockMap.isEmpty(x, y)){
+							itemToPlace.draw(g, (x * size) + viewPosition.x, (y * size) + viewPosition.y, size);
+						}
 					}
 
 				} else {
@@ -97,7 +99,9 @@ public class MapInteractor {
 						mouseY++;
 					}
 					for (int y = originY; y < mouseY; y++){
-						itemToPlace.draw(g, (x * size) + viewPosition.x, (y * size) + viewPosition.y, size);
+						if (blockMap.isEmpty(x, y)){
+							itemToPlace.draw(g, (x * size) + viewPosition.x, (y * size) + viewPosition.y, size);
+						}
 					}
 				}
 				break;
@@ -125,7 +129,9 @@ public class MapInteractor {
 
 				for (int x = originX; x < mouseX; x++){
 					for (int y = originY; y < mouseY; y++){
-						itemToPlace.draw(g, (x * size) + viewPosition.x, (y * size) + viewPosition.y, size);
+						if (blockMap.isEmpty(x, y)){
+							itemToPlace.draw(g, (x * size) + viewPosition.x, (y * size) + viewPosition.y, size);
+						}
 					}
 				}
 				break;

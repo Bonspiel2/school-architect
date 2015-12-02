@@ -43,6 +43,9 @@ public class Door extends Object implements Placeable{
 		traversable = !traversable;
 	}
 	
+	public boolean isEmpty(){
+		return false;
+	}
 	
 
 }
