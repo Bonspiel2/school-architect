@@ -83,7 +83,7 @@ public class MapInteractor {
 
 					}
 					for (int x = originX; x < mouseX; x++){
-						if (blockMap.isEmpty(x, y)){
+						if (blockMap.isEmpty(x, y, true)){
 							itemToPlace.draw(g, (x * size) + viewPosition.x, (y * size) + viewPosition.y, size);
 						}
 					}
@@ -99,7 +99,7 @@ public class MapInteractor {
 						mouseY++;
 					}
 					for (int y = originY; y < mouseY; y++){
-						if (blockMap.isEmpty(x, y)){
+						if (blockMap.isEmpty(x, y, true)){
 							itemToPlace.draw(g, (x * size) + viewPosition.x, (y * size) + viewPosition.y, size);
 						}
 					}
@@ -114,7 +114,7 @@ public class MapInteractor {
 
 				if (mousePosition.x < originPosition.x){
 					int temp = mouseX;
-					mouseX = originX;
+					mouseX = originX; 
 					originX = temp;
 					mouseX++;
 
@@ -129,7 +129,7 @@ public class MapInteractor {
 
 				for (int x = originX; x < mouseX; x++){
 					for (int y = originY; y < mouseY; y++){
-						if (blockMap.isEmpty(x, y)){
+						if (blockMap.isEmpty(x, y, true)){
 							itemToPlace.draw(g, (x * size) + viewPosition.x, (y * size) + viewPosition.y, size);
 						}
 					}
@@ -159,7 +159,7 @@ public class MapInteractor {
 
 				for (int x = originX; x < mouseX; x++){
 					for (int y = originY; y < mouseY; y++){
-						if (x == originX || x == mouseX - 1 || y == originY || y == mouseY - 1){
+						if ((x == originX || x == mouseX - 1 || y == originY || y == mouseY - 1) && blockMap.isEmpty(x, y, true)){
 							itemToPlace.draw(g, (x * size) + viewPosition.x, (y * size) + viewPosition.y, size);
 						} else {
 							new Tile().draw(g, (x * size) + viewPosition.x, (y * size) + viewPosition.y, size);
@@ -221,7 +221,9 @@ public class MapInteractor {
 
 						}
 						for (int placingX = originX; placingX < mouseX; placingX+=size){
-							blockMap.place(placingX, originPosition.y, itemToPlace);
+							if (blockMap.isEmpty(placingX, y, false)){
+								blockMap.place(placingX, originPosition.y, itemToPlace);
+							}
 						}
 
 					} else {
@@ -236,7 +238,9 @@ public class MapInteractor {
 
 						}
 						for (int placingY = originY; placingY < mouseY; placingY+=size){
-							blockMap.place(originPosition.x, placingY, itemToPlace);
+							if (blockMap.isEmpty(x, placingY, false)){
+								blockMap.place(originPosition.x, placingY, itemToPlace);
+							}
 						}
 					}
 					break;
